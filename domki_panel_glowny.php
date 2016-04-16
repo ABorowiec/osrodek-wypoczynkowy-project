@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 require_once('config.php');
 ?>
@@ -32,6 +32,7 @@ if ($_GET['wyloguj'] == 'yes') {
 }
 
 
+$level = $_SESSION['level'];
 $username = $_SESSION['username'];
 
 echo "<div style='margin-top: 50px; margin-left: 570px; position: absolute; border: 1px; border-style: none; border-color: #ffffff; font-weight: bold;;'><br/>";
@@ -39,24 +40,51 @@ echo "Witaj &nbsp <span style='color: #0000ff;'>".$username."</span><br/>";
 echo"<a href='?wyloguj=yes'>Wyloguj</a>";
 echo "</div>";
 echo "<h2 style='text-align: center; margin-top: 10px;'>Panel Administratora</h2>";
-echo "<table id=tables><tr>";
 
-echo "<td><a href=domki.php>Domki</a></td>";
-echo "<td><a href=dostepne_srodki.php>Dostępne środki</a></td>";
-echo "<td><a href=rezerwacje.php>Rezerwacje</a></td>";
-echo "<td><a href=oferty.php>Oferty</a></td>";
-echo "<td><a href=usterki.php>Usterki></td>";
+$connect=@mysql_connect ($db_host, $db_user, $db_pass) or die ('Nie udało się. Błąd:' .mysql_error());
 
-echo "</tr><tr>";
+mysql_select_db($db_name);
 
-echo "<td><a href=firmy.php>Firmy</a></td>";
-echo "<td><a href=niezbedne_srodki.php>Niezbędne środki</a></td>";
-echo "<td><a href=kontrakty.php>Kontrakty</a></td>";
-echo "<td><a href=promocje.php>Promocje</a></td>";
-echo "<td><a href=klienci.php>Klienci</a></td>";
+$pokaz = "SELECT * FROM dzialy WHERE LEV_DOSTEPU = $level ORDER BY DZIAL ASC ";
 
+$results=mysql_query($pokaz) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+
+
+echo "<table><tr>";
+
+while ($row1 = mysql_fetch_row($results)) {
+	
+		
+		$adres = $row1[1];
+		$link = $row1[2];
+		
+		echo "<td><a href='".$adres."'>".$link."</a></td>";
+		
+	
+	
+	
+}
 
 echo "</tr></table>";
+
+//echo "<table id=tables><tr>";
+
+//echo "<td><a href=domki.php>Domki</a></td>";
+//echo "<td><a href=dostepne_srodki.php>Dostępne środki</a></td>";
+//echo "<td><a href=rezerwacje.php>Rezerwacje</a></td>";
+//echo "<td><a href=oferty.php>Oferty</a></td>";
+//echo "<td><a href=usterki.php>Usterki></td>";
+
+//echo "</tr><tr>";
+
+//echo "<td><a href=firmy.php>Firmy</a></td>";
+//echo "<td><a href=niezbedne_srodki.php>Niezbędne środki</a></td>";
+//echo "<td><a href=kontrakty.php>Kontrakty</a></td>";
+//echo "<td><a href=promocje.php>Promocje</a></td>";
+//echo "<td><a href=klienci.php>Klienci</a></td>";
+
+
+//echo "</tr></table>";
 
 //echo "<div id=login style='margin-top: 200px;'><br/>";
 //echo "<table><tr>";
