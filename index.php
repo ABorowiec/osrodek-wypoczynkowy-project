@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <META NAME="robots" CONTENT="noindex, nofollow">
 <link rel="shortcut icon" href="dane\favicon.ico">
