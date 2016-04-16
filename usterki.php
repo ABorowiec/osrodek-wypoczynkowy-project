@@ -27,11 +27,7 @@ $user = $_SESSION['username'];
 
 	if ($level == 6 || $level == 5 || $level == 4 )
 	{
-	echo "<table><tr>";
-	echo "<td>Dodaj</td>";
-	echo "<td>>Edytuj</td>";
-	echo "<td>Usuń</td>";
-	echo "</tr></table>";	
+		
 	}
 	else
 	{

@@ -22,7 +22,7 @@ if ($_POST['submit'] == 'Zaloguj')
 $username = ($_POST['username']);
 $password = ($_POST['password']);
 
-$password = hash('sha256', $password, false);
+//$password = hash('sha256', $password, false);
 
 require_once('config.php');
 
@@ -66,7 +66,7 @@ mysql_select_db($db_name);
 	else
 	{
 	//echo mysql_error();
-	$message = '<B>Nieprawidłowy login lub hasło</B>';
+	echo "Nieprawidłowe dane";
 	}
 }	
 //else
@@ -92,12 +92,8 @@ mysql_select_db($db_name);
 
 <input type='submit' value='Zaloguj' name='submit'> <br/><br/>
 
-<?php
-if(isset($message))
-{
-echo $message;
-}
-?>
+<a href = 'sc_remind_password.php' >Przypomnij hasło</a>
+
 </form>
 
 </div>
