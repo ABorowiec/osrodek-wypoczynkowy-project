@@ -66,7 +66,7 @@ mysql_select_db($db_name);
 	else
 	{
 	//echo mysql_error();
-	echo "Nieprawidłowe dane";
+	$message = '<B>Nieprawidłowy login lub hasło</B>';
 	}
 }	
 //else
@@ -92,8 +92,12 @@ mysql_select_db($db_name);
 
 <input type='submit' value='Zaloguj' name='submit'> <br/><br/>
 
-<a href = 'sc_remind_password.php' >Przypomnij hasło</a>
-
+<?php
+if(isset($message))
+{
+echo $message;
+}
+?>
 </form>
 
 </div>
