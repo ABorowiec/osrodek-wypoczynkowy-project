@@ -1,4 +1,4 @@
-﻿<html>
+<html>
 <head>
 <META NAME="robots" CONTENT="noindex, nofollow">
 <link rel="shortcut icon" href="dane\favicon.ico">
@@ -22,7 +22,7 @@ if ($_POST['submit'] == 'Zaloguj')
 $username = ($_POST['username']);
 $password = ($_POST['password']);
 
-//$password = hash('sha256', $password, false);
+$password = hash('sha256', $password, false);
 
 require_once('config.php');
 
