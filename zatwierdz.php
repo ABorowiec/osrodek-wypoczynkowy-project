@@ -154,7 +154,7 @@ $user = $_SESSION['username'];
 				if ( $results  ) 
 				{
 				
-				echo "Pomyślnie zeedytowano rekord z bazy<br>";
+				echo "Pomyślnie zedytowano rekord z bazy<br>";
 				echo $stara_nazwa_domku."<br>";
 				echo $stary_opis_domku."<br>";
 				echo "na:<br>";
@@ -167,7 +167,7 @@ $user = $_SESSION['username'];
 				else
 				{
 					
-				echo "Błąd. Nie zeedytowano rekordu z bazy";	
+				echo "Błąd. Nie zedytowano rekordu z bazy";	
 				echo "<a href='domki.php'>Wróć</a>";
 				header( 'refresh: 5; url=domki.php' );
 					

@@ -264,7 +264,7 @@ else{
 	
 			echo "<h2>Wyszukaj: </h2><br />";
 			echo "<form method='post' action=''>";
-			echo "Nazwa: <input type='text' name='nazwa' size='15' /> <br/>";
+			echo "Nazwa: <input type='text' name='nazwa' size='20' placeholder='Wpisz szukane słowo...' /> <br/>";
 			echo "<input type='checkbox' name='opis'/> Szukaj w opisach <br/><br/>";
 			echo "<input type='submit' name='wyszukaj' value='Wyszukaj' /><br/>";
 			echo "</form>";

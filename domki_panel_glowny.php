@@ -125,12 +125,12 @@ echo "</div>";
 header('Location: index.php');
 }
 
+ // <div style='bottom: 75px; left: 350px; position: absolute; text-align: center;'>
+ // <a href='index.html'>powrót na stronę główną</a>
+ // </div>
 ?>
 
 
-<div style='bottom: 75px; left: 350px; position: absolute; text-align: center;'>
-<a href='index.html'>Powrót na stronę główną</a>
-</div>
 
 </div>
 </div>
