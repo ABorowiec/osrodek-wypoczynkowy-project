@@ -30,7 +30,133 @@ $user = $_SESSION['username'];
 
 	if ($level == 6 || $level == 5 || $level == 4 || $level == 2 )
 	{
+		
+		if (isset($_POST['wyszukaj']))
+			{
+				
+			$nazwa_szukanego_rekordu = $_POST['nazwa']; 
+				
+			if  ((empty($nazwa_szukanego_rekordu)))
+			{
+				
+				echo "Nie wypełniono pola wyszukiwania...<br/>";
+				echo "<a href='domki.php'>Wróć</a>";
+				header( 'refresh: 5; url=domki.php' );
+				$pagenum = 1;
+				
+			}
+			else
+			{
+			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
+			mysql_select_db($db_name);
+			
+			
+			if (isset($_POST['opis'])) {
+
+			// Checkbox is selected
 	
+			$wyszukane = mysql_query("SELECT * FROM domek WHERE (Nazwa LIKE '%$nazwa_szukanego_rekordu%') OR (Opis LIKE '%$nazwa_szukanego_rekordu%') ORDER BY Nazwa ASC");
+	
+			} 
+			else
+			{
+				
+
+			// Alternate code
+   
+			$wyszukane = mysql_query("SELECT * FROM domek WHERE Nazwa LIKE '%$nazwa_szukanego_rekordu%' ORDER BY Nazwa ASC");
+   
+			}
+			
+			
+			
+			
+					$liczba_wierszy = @mysql_num_rows($wyszukane);
+		
+		echo "<br/>Znalezionych rekordów: ".$liczba_wierszy."<br/>";
+		
+		echo"<br/><br/>";
+		echo"<br/><br/>";
+		
+		//pejdżowanie
+	
+	//$liczba_wierszy = @mysql_num_rows($wyszukane);
+	
+	$na_stronie = 5;
+		
+	$ostatnia_strona = ceil($liczba_wierszy/$na_stronie);
+	
+	if (!isset($_GET['pagenum']))
+		{
+		$pagenum = 1;
+		}
+		else
+		{
+		$pagenum = $_GET['pagenum'];
+		}
+
+		
+			if ($pagenum < 1)
+			{
+			$pagenum = 1;
+			}
+			elseif ($pagenum > $ostatnia_strona)
+			{
+			$pagenum = $ostatnia_strona;
+			}
+			$offset = ($pagenum -1) * $na_stronie;
+			
+			
+			
+			if (isset($_POST['opis'])) {
+
+			// Checkbox is selected
+	
+			$lista = mysql_query("SELECT * FROM domek WHERE (Nazwa LIKE '%$nazwa_szukanego_rekordu%') OR (Opis LIKE '%$nazwa_szukanego_rekordu%') ORDER BY Nazwa ASC LIMIT $na_stronie OFFSET $offset");
+	
+			} 
+			else
+			{
+				
+
+			// Alternate code
+   
+			$lista = mysql_query("SELECT * FROM domek WHERE Nazwa LIKE '%$nazwa_szukanego_rekordu%' ORDER BY Nazwa ASC LIMIT $na_stronie OFFSET $offset");
+   
+			}
+			
+			
+			
+			//$data = "SELECT * FROM domek LIKE '%$nazwa_szukanego_rekordu%' ORDER BY Nazwa ASC LIMIT $na_stronie OFFSET $offset";
+
+			//$lista = mysql_query($lista);
+		
+			$liczba_wierszy = @mysql_num_rows($lista);
+		
+		
+		if ($liczba_wierszy > 0)
+		{
+		while ($row = mysql_fetch_row($lista))
+		{
+		echo "<table border=1><tr>";
+		echo "<td>". $row[1] ."</td>";
+		echo "<td>". $row[2] ."</td>";
+		echo "</tr></table>";
+		}
+	
+		}
+		else
+		{
+			
+		echo "Brak danych w bazie";
+			
+		}
+		}
+		}
+		
+		
+	else
+	{
 	$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
 	mysql_select_db($db_name);
 	$wszystkie = mysql_query("SELECT * FROM domek ORDER BY Nazwa ASC");
@@ -73,7 +199,7 @@ $user = $_SESSION['username'];
 		$liczba_wierszy = @mysql_num_rows($lista);
 		
 		//echo $liczba_wierszy;
-		
+		//koniec pejdżowania
 if ($liczba_wierszy > 0)
 	{
 	while ($row = mysql_fetch_row($lista))
@@ -84,85 +210,10 @@ if ($liczba_wierszy > 0)
 	echo "</tr></table>";
 	}
 	
-	}
-else{
+echo"<br/><br/>";
+echo"<br/><br/>";
 	
-	echo "Brak danych do wyświetlenia";
-}
-
-	echo"<br/><br/>";
-	echo"<br/><br/>";
-
-	// formularz wyszukaj
-	
-			echo "<h2>Wyszukaj: </h2><br />";
-			echo "<form method='post' action=''>";
-			echo "Nazwa: <input type='text' name='nazwa' size='15' /> <br/>";
-			echo "<input type='checkbox' name='opis'/> Szukaj w opisach <br/><br/>";
-			echo "<input type='submit' name='wyszukaj' value='Wyszukaj' /><br/>";
-			echo "</form>";
-			
-			if (isset($_POST['wyszukaj']))
-			{
-				
-			$nazwa_szukanego_rekordu = $_POST['nazwa']; 
-				
-			//echo $nazwa_szukanego_rekordu;
-				
-			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
-			mysql_select_db($db_name);
-			
-			
-			if (isset($_POST['opis'])) {
-
-			// Checkbox is selected
-	
-			$wyszukane = mysql_query("SELECT * FROM domek WHERE (Nazwa LIKE '%$nazwa_szukanego_rekordu%') OR (Opis LIKE '%$nazwa_szukanego_rekordu%') ORDER BY Nazwa ASC");
-	
-			} 
-			else 
-			{
-				
-
-			// Alternate code
-   
-			$wyszukane = mysql_query("SELECT * FROM domek WHERE Nazwa LIKE '%$nazwa_szukanego_rekordu%' ORDER BY Nazwa ASC");
-   
-			}
-			
-			
-			
-			
-					$liczba_wierszy = @mysql_num_rows($wyszukane);
-		
-		echo "<br/>Znalezionych rekordów: ".$liczba_wierszy."<br/>";
-		
-		echo"<br/><br/>";
-		echo"<br/><br/>";
-		
-		if ($liczba_wierszy > 0)
-		{
-		while ($row = mysql_fetch_row($wyszukane))
-		{
-		echo "<table border=1><tr>";
-		echo "<td>". $row[1] ."</td>";
-		echo "<td>". $row[2] ."</td>";
-		echo "</tr></table>";
-		}
-	
-		}
-		else
-		{
-			
-		echo "Brak danych w bazie";
-			
-		}
-		}
-			
-	echo"<br/><br/>";
-	echo"<br/><br/>";
-
-		echo "Strona ".$pagenum." z ".$ostatnia_strona." ";
+	echo "Strona ".$pagenum." z ".$ostatnia_strona." ";
 
 
 		if ($pagenum == 1) //jesli strona jest pierwsza
@@ -175,8 +226,8 @@ else{
 		
 			//echo"<a href='?pagenum=1'>Pierwsza strona</a>";
 		
-			echo" ";
-			$previous = $pagenum - 1;
+		echo" ";
+		$previous = $pagenum - 1;
 		echo"<a href='?pagenum=$previous'>Poprzednia strona</a>";
 		}
 		if ($pagenum == $ostatnia_strona) //jesli strona jest ostatnia
@@ -194,11 +245,31 @@ else{
 		//echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
 			
 		}
+		//Wyjebać
+		}
+else{
 	
-		
+	echo "Brak danych do wyświetlenia";
+}
+}
 	
-	// koniec pejdżowania
+
+	// Wyjebać
+
+	echo"<br/><br/>";
+	echo"<br/><br/>";
+
+	// formularz wyszukaj
 	
+			echo "<h2>Wyszukaj: </h2><br />";
+			echo "<form method='post' action=''>";
+			echo "Nazwa: <input type='text' name='nazwa' size='15' /> <br/>";
+			echo "<input type='checkbox' name='opis'/> Szukaj w opisach <br/><br/>";
+			echo "<input type='submit' name='wyszukaj' value='Wyszukaj' /><br/>";
+			echo "</form>";
+			
+			
+			
 	echo"<br/><br/>";
 	echo"<br/><br/>";
 	

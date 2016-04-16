@@ -6,7 +6,7 @@ height: 100%;
 body 
 {
 height: 100%;
-background-image: url("bg.jpg");
+/*background-image: url("bg.jpg");*/
 background-repeat:no-repeat;
 /* background-attachment:absolute; */
 background-position: top 0px center; 
