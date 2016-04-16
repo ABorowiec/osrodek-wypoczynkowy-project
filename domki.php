@@ -151,6 +151,7 @@ $user = $_SESSION['username'];
 		echo "Brak danych w bazie";
 			
 		}
+		echo "<br><br><a href='domki.php'>Wróć</a>";
 		}
 		}
 		

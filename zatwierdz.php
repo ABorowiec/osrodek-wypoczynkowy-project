@@ -55,7 +55,7 @@ $user = $_SESSION['username'];
 			if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku'")) > 0)
 			{
 				
-				echo "Taki domek już instnieje<br>";
+				echo "Taki domek już istnieje<br>";
 				//echo $stara_nazwa_domku."<br>";
 				//echo $stary_opis_domku."<br>";
 				//echo "na:<br>";
@@ -132,7 +132,7 @@ $user = $_SESSION['username'];
 			if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku'")) > 0)
 			{
 				
-				echo "Taki domek już instnieje<br>";
+				echo "Taki domek już istnieje<br>";
 				//echo $stara_nazwa_domku."<br>";
 				//echo $stary_opis_domku."<br>";
 				//echo "na:<br>";
