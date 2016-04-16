@@ -25,7 +25,7 @@ $user = $_SESSION['username'];
 	//mysql_select_db($db_name);
 	//$level_z_bazy = mysql_query("SELECT level FROM users WHERE username = '$user'");
 
-	if ($level == 6 || $level == 5 || $level == 3 || $level == 1 )
+	if ($level == 6 || $level == 5 || $level == 4 || $level == 3 || $level == 2 )
 	{
 	echo "<table><tr>";
 	echo "<td>Dodaj</td>";
