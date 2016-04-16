@@ -27,7 +27,15 @@ $user = $_SESSION['username'];
 
 	if ($level == 6 || $level == 5 || $level == 4 || $level == 2 )
 	{
-		
+	echo "<h1>Dodaj do bazy</h1>";
+	echo "<form method='post' action=''>";
+	echo "Pole:<input type='text' name='marka' size='15' /> <br/><br/>";
+	echo "Pole 2<input type='text' name='poj' size='15' /> <br/><br/>";
+	echo "Pole 3:<input type='text' name='konie' size='15' /> <br/><br/>";
+	echo "Pole 4:<input type='text' name='nr' size='15' /> <br/><br/>";
+	echo "Pole 5:<textarea name='l' rows=4 cols=18></textarea><br/><br/>";
+	echo "<input type='submit' name='submit' value='Dodaj' />";
+	echo "</form>";
 	}
 	else
 	{
