@@ -12,6 +12,11 @@ background-repeat:no-repeat;
 background-position: top 0px center; 
 }
 
+textarea 
+{
+resize: none;
+}
+
 .marquee a
 {
 color: #ff0000;
@@ -574,7 +579,7 @@ border-width: 0px;
 border-style: none;
 border-color: #0000ff;
 }
-
+/* style do mainsite są w pliku domki.php */
 #mainsite
 {
 top: 5px;
