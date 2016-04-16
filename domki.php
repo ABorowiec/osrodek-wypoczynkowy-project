@@ -71,20 +71,20 @@ $user = $_SESSION['username'];
 			
 			
 			
-					$liczba_wierszy = @mysql_num_rows($wyszukane);
+					$ilosc = @mysql_num_rows($wyszukane);
 		
-		echo "<br/>Znalezionych rekordów: ".$liczba_wierszy."<br/>";
+		echo "<br/>Znalezionych rekordów: ".$ilosc."<br/>";
 		
 		echo"<br/><br/>";
 		echo"<br/><br/>";
 		
 		//pejdżowanie
 	
-	//$liczba_wierszy = @mysql_num_rows($wyszukane);
+	//$ilosc = @mysql_num_rows($wyszukane);
 	
 	$na_stronie = 5;
 		
-	$ostatnia_strona = ceil($liczba_wierszy/$na_stronie);
+	$ostatnia_strona = ceil($ilosc/$na_stronie);
 	
 	if (!isset($_GET['pagenum']))
 		{
@@ -134,17 +134,65 @@ $user = $_SESSION['username'];
 			$liczba_wierszy = @mysql_num_rows($lista);
 		
 		
-		if ($liczba_wierszy > 0)
+	if ($liczba_wierszy > 0)
 		{
-		while ($row = mysql_fetch_row($lista))
+	echo "<table border=1><tr>";
+	echo "<td><b>Nazwa</b></td>";
+	echo "<td><b>Opis</b></td></tr>";
+	while ($row = mysql_fetch_row($lista))
+	{
+	
+	echo "<tr><td>". $row[1] ."</td>";
+	echo "<td>". $row[2] ."</td></tr>";
+
+	}
+	echo "</table>";
+	
+		echo"<br/><br/>";
+		echo"<br/><br/>";
+	
+	if ($ilosc > 5)
+	{
+	echo "Strona ".$pagenum." z ".$ostatnia_strona." ";
+
+	
+		if ($pagenum == $ostatnia_strona) //jesli strona jest ostatnia
 		{
-		echo "<table border=1><tr>";
-		echo "<td>". $row[1] ."</td>";
-		echo "<td>". $row[2] ."</td>";
-		echo "</tr></table>";
+		echo" ";
+		echo"<a href='?pagenum=1'>Pierwsza strona</a>";
+		}
+		
+		else // jesli strona nie jest ostatnia
+		{
+		$next = $pagenum + 1;
+		echo" ";
+		echo"<a href='?pagenum=$next'>Następna strona</a>";
+		
+		//echo" ";
+		//echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
+			
+		}
+		
+		
+		if ($pagenum == 1) //jesli strona jest pierwsza
+		{
+			echo" ";
+			echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
+		}
+		
+		else // jesli strona nie jest pierwsza
+		{
+		
+			//echo"<a href='?pagenum=1'>Pierwsza strona</a>";
+		
+		echo" ";
+		$previous = $pagenum - 1;
+		echo"<a href='?pagenum=$previous'>Poprzednia strona</a>";
 		}
 	
 		}
+		}
+		
 		else
 		{
 			
@@ -202,40 +250,33 @@ $user = $_SESSION['username'];
 		//echo $liczba_wierszy;
 		//koniec pejdżowania
 if ($liczba_wierszy > 0)
-	{
+		{
+	echo "<table border=1><tr>";
+	echo "<td><b>Nazwa</b></td>";
+	echo "<td><b>Opis</b></td></tr>";
 	while ($row = mysql_fetch_row($lista))
 	{
-	echo "<table border=1><tr>";
-	echo "<td>". $row[1] ."</td>";
-	echo "<td>". $row[2] ."</td>";
-	echo "</tr></table>";
+	
+	echo "<tr><td>". $row[1] ."</td>";
+	echo "<td>". $row[2] ."</td></tr>";
+
 	}
+	echo "</table>";
 	
 echo"<br/><br/>";
 echo"<br/><br/>";
 	
+	if ($ilosc > 5)
+	{
 	echo "Strona ".$pagenum." z ".$ostatnia_strona." ";
 
-
-		if ($pagenum == 1) //jesli strona jest pierwsza
-		{
-			echo" ";
-			echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
-		} 
-		else // jesli strona nie jest pierwsza
-		{
-		
-			//echo"<a href='?pagenum=1'>Pierwsza strona</a>";
-		
-		echo" ";
-		$previous = $pagenum - 1;
-		echo"<a href='?pagenum=$previous'>Poprzednia strona</a>";
-		}
+	
 		if ($pagenum == $ostatnia_strona) //jesli strona jest ostatnia
 		{
 		echo" ";
 		echo"<a href='?pagenum=1'>Pierwsza strona</a>";
 		}
+		
 		else // jesli strona nie jest ostatnia
 		{
 		$next = $pagenum + 1;
@@ -245,6 +286,26 @@ echo"<br/><br/>";
 		//echo" ";
 		//echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
 			
+		}
+		
+		
+		if ($pagenum == 1) //jesli strona jest pierwsza
+		{
+			echo" ";
+			echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
+		}
+		
+		else // jesli strona nie jest pierwsza
+		{
+		
+			//echo"<a href='?pagenum=1'>Pierwsza strona</a>";
+		
+		echo" ";
+		$previous = $pagenum - 1;
+		echo"<a href='?pagenum=$previous'>Poprzednia strona</a>";
+		}
+		
+		
 		}
 		//Wyjebać
 		}
