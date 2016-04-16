@@ -39,7 +39,31 @@ echo "<div style='margin-top: 50px; margin-left: 570px; position: absolute; bord
 echo "Witaj &nbsp <span style='color: #0000ff;'>".$username."</span><br/>";
 echo"<a href='?wyloguj=yes'>Wyloguj</a>";
 echo "</div>";
-echo "<h2 style='text-align: center; margin-top: 10px;'>Panel Administratora</h2>";
+//echo "<h2 style='text-align: center; margin-top: 10px;'>Panel pracownika</h2>";
+
+switch ($level) {
+    case 1:
+        $usertype = "przedstawiciela";
+        break;
+    case 2:
+        $usertype = "recepcjonisty";
+        break;
+    case 3:
+        $usertype = "promotora";
+        break;
+	case 4:
+        $usertype = "księgowego";
+        break;
+	case 5:
+        $usertype = "właściciela";
+        break;
+	case 6:
+        $usertype = "administratora";
+        break;
+}
+
+echo "<h2 style='text-align: center; margin-top: 10px;'>Panel ".$usertype."</h2>";
+
 
 $connect=@mysql_connect ($db_host, $db_user, $db_pass) or die ('Nie udało się. Błąd:' .mysql_error());
 
