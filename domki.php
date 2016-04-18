@@ -31,7 +31,65 @@ $user = $_SESSION['username'];
 	if ($level == 6 || $level == 5 || $level == 4 || $level == 2 )
 	{
 		
-		if (isset($_POST['wyszukaj']))
+		if (isset($_POST['wyswietl']))
+		{
+			//podlaczenie do mysql i wybor danych
+			
+			if (isset($_POST['lista']))
+			{
+				
+			//echo $_POST['lista'];
+			$edytowane =  $_POST['lista'];
+			
+			
+			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
+			mysql_select_db($db_name);
+			$wybrany_rekord = mysql_query("SELECT * FROM domek WHERE Nazwa = '$edytowane'");
+			
+			$liczba_wierszy = @mysql_num_rows($wybrany_rekord);
+			
+			echo "<h1>Wybrany domek:</h1>";
+			
+			if ($liczba_wierszy > 0)
+			{
+			echo "<table border=1><tr>";
+			echo "<td><b>Nazwa</b></td>";
+			echo "<td><b>Opis</b></td></tr>";
+			while ($row = mysql_fetch_row($wybrany_rekord))
+				{
+	
+				echo "<tr><td>". $row[1] ."</td>";
+				echo "<td>". $row[2] ."</td></tr>";
+
+				}
+			echo "</table>";
+	
+		echo"<br/><br/>";
+		echo"<br/><br/>";
+			echo "<a href='domki.php'>Wróć</a>";
+			
+			
+			}
+			}
+			
+		else{
+			
+			echo "Wybierz domek kurwiu";
+			
+			echo"<br/><br/>";
+			echo"<br/><br/>";
+			
+			echo "<a href='domki.php'>Wróć</a>";
+			
+		
+			
+				
+			
+		}
+		
+		
+		}
+		elseif (isset($_POST['wyszukaj']))
 			{
 				
 			$nazwa_szukanego_rekordu = $_POST['nazwa']; 
@@ -350,6 +408,7 @@ else{
 	}
 	echo"</SELECT>";
 	echo"<input type='submit' name='dodaj' value='Dodaj' />";
+	echo"<input type='submit' name='wyswietl' value='Wyświetl' />";
 	echo"<input type='submit' name='edytuj' value='Edytuj' />";
 	echo"<input type='submit' name='usun' value='Usuń' />";
 	echo"</form>";
