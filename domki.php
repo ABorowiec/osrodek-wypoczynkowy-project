@@ -86,25 +86,25 @@ $user = $_SESSION['username'];
 		
 	$ostatnia_strona = ceil($ilosc/$na_stronie);
 	
-	if (!isset($_GET['pagenum']))
+	if (!isset($_GET['search'])) // Jesli nie zadeklarowano zmiennej search
 		{
-		$pagenum = 1;
+		$search = 1;
 		}
 		else
 		{
-		$pagenum = $_GET['pagenum'];
+		$search = $_GET['search'];
 		}
 
 		
-			if ($pagenum < 1)
+			if ($search < 1)
 			{
-			$pagenum = 1;
+			$search = 1;
 			}
-			elseif ($pagenum > $ostatnia_strona)
+			elseif ($search > $ostatnia_strona)
 			{
-			$pagenum = $ostatnia_strona;
+			$search = $ostatnia_strona;
 			}
-			$offset = ($pagenum -1) * $na_stronie;
+			$offset = ($search -1) * $na_stronie;
 			
 			
 			
@@ -153,20 +153,20 @@ $user = $_SESSION['username'];
 	
 	if ($ilosc > 5)
 	{
-	echo "Strona ".$pagenum." z ".$ostatnia_strona." ";
+	echo "Strona ".$search." z ".$ostatnia_strona." ";
 
 	
-		if ($pagenum == $ostatnia_strona) //jesli strona jest ostatnia
+		if ($search == $ostatnia_strona) //jesli strona jest ostatnia
 		{
 		echo" ";
-		echo"<a href='?pagenum=1'>Pierwsza strona</a>";
+		echo"<a href='?search=1'>Pierwsza strona</a>";
 		}
 		
 		else // jesli strona nie jest ostatnia
 		{
-		$next = $pagenum + 1;
+		$next = $search + 1;
 		echo" ";
-		echo"<a href='?pagenum=$next'>Następna strona</a>";
+		echo"<a href='?search=$next'>Następna strona</a>";
 		
 		//echo" ";
 		//echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
@@ -174,10 +174,10 @@ $user = $_SESSION['username'];
 		}
 		
 		
-		if ($pagenum == 1) //jesli strona jest pierwsza
+		if ($search == 1) //jesli strona jest pierwsza
 		{
 			echo" ";
-			echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
+			echo"<a href='?search=$ostatnia_strona'>Ostatnia strona</a>";
 		}
 		
 		else // jesli strona nie jest pierwsza
@@ -186,8 +186,8 @@ $user = $_SESSION['username'];
 			//echo"<a href='?pagenum=1'>Pierwsza strona</a>";
 		
 		echo" ";
-		$previous = $pagenum - 1;
-		echo"<a href='?pagenum=$previous'>Poprzednia strona</a>";
+		$previous = $search - 1;
+		echo"<a href='?search=$previous'>Poprzednia strona</a>";
 		}
 	
 		}
@@ -219,15 +219,19 @@ $user = $_SESSION['username'];
 
 	$ostatnia_strona = ceil($ilosc/$na_stronie);
 		
-		if (!isset($_GET['pagenum']))
+		if ((!isset($_GET['pagenum'])))// and (!isset($_GET['search']))) // Jesli nie zadeklarowano zmiennej search
 		{
 		$pagenum = 1;
+		
+		
 		}
-		else
+		elseif ((isset($_GET['pagenum'])))// and (!isset($_GET['search'])))
 		{
 		$pagenum = $_GET['pagenum'];
 		}
 
+		echo "Search ".$search;
+		echo "Pagenum ".$pagenum;
 		
 			if ($pagenum < 1)
 			{
@@ -394,12 +398,13 @@ else{
 			
 			}
 			
-				//if (isset($_POST['Edytuj rekord']))
-				//{
-					
-					
-					
-				//}
+		else{
+			
+			echo "Wybierz domek kurwiu";
+			
+		}
+			
+				
 			
 		}
 		if (isset($_POST['usun']))
@@ -434,10 +439,14 @@ else{
 			}
 			
 			}
+			else{
 			
+			echo "Wybierz domek kurwiu";
+			}
+
+		
 			
 		}
-		
 		
 	}
 	else	

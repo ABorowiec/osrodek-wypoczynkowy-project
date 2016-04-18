@@ -121,6 +121,8 @@ $user = $_SESSION['username'];
 				header( 'refresh: 5; url=domki.php' );
 				
 			}
+			
+			
 			else
 			{
 			
@@ -129,10 +131,10 @@ $user = $_SESSION['username'];
 			
 			//
 			
-			if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku'")) > 0)
+			if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku' && Opis = '$opis_domku' ")) > 0)
 			{
 				
-				echo "Taki domek już istnieje<br>";
+				echo "Taki domek już istnieje lub nie zeedytowano wpisu...<br>";
 				//echo $stara_nazwa_domku."<br>";
 				//echo $stary_opis_domku."<br>";
 				//echo "na:<br>";
