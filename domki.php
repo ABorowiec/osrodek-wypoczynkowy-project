@@ -12,8 +12,39 @@ require_once('config.php');
 <link rel="Stylesheet" type="text/css" href="dane\style.css" />
 </head>
 <body>
-<div id=site>
-<div id=mainsite style ="width: 850px; height: 1040px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #ffffff;">
+
+<div id=site style ="border-style: solid;
+border-width: 2px;
+border-style: none;
+border-color: #ffffff;
+width: 1060px;
+height: 1150px;
+position: absolute;
+top: 0px;
+left: 50%;
+margin-left: -522px;
+-webkit-border-top-left-radius: 10px;
+-moz-border-top-left-radius: 10px;
+border-top-left-radius: 10px;
+-webkit-border-bottom-left-radius: 10px;
+-moz-border-bottom-left-radius: 10px;
+border-bottom-left-radius: 10px;
+-webkit-border-top-right-radius: 10px;
+-moz-border-top-right-radius: 10px;
+border-top-right-radius: 10px;
+-webkit-border-bottom-right-radius: 10px;
+-moz-border-bottom-right-radius: 10px;
+border-bottom-right-radius: 10px;">
+
+
+<div id=mainsite style ="width: 850px; 
+height: 1040px; 
+top: 100px; 
+left: 100px; 
+position: absolute; 
+border: 1px; 
+border-style: none; 
+border-color: #000000;">
 
 <?php
 
@@ -67,7 +98,7 @@ $user = $_SESSION['username'];
 		echo"<br/><br/>";
 		echo"<br/><br/>";
 			echo "<a href='domki.php'>Wróć</a>";
-			
+			$lista = $wybrany_rekord;
 			
 			}
 			}
@@ -129,9 +160,9 @@ $user = $_SESSION['username'];
 			
 			
 			
-					$ilosc = @mysql_num_rows($wyszukane);
+					$liczba_wierszy = @mysql_num_rows($wyszukane);
 		
-		echo "<br/>Znalezionych rekordów: ".$ilosc."<br/>";
+		echo "<br/>Znalezionych rekordów: ".$liczba_wierszy."<br/>";
 		
 		echo"<br/><br/>";
 		echo"<br/><br/>";
@@ -140,48 +171,48 @@ $user = $_SESSION['username'];
 	
 	//$ilosc = @mysql_num_rows($wyszukane);
 	
-	$na_stronie = 5;
+	// $na_stronie = 5;
 		
-	$ostatnia_strona = ceil($ilosc/$na_stronie);
+	// $ostatnia_strona = ceil($ilosc/$na_stronie);
 	
-	if (!isset($_GET['search'])) // Jesli nie zadeklarowano zmiennej search
-		{
-		$search = 1;
-		}
-		else
-		{
-		$search = $_GET['search'];
-		}
+	// if (!isset($_GET['search'])) // Jesli nie zadeklarowano zmiennej search
+		// {
+		// $search = 1;
+		// }
+		// else
+		// {
+		// $search = $_GET['search'];
+		// }
 
 		
-			if ($search < 1)
-			{
-			$search = 1;
-			}
-			elseif ($search > $ostatnia_strona)
-			{
-			$search = $ostatnia_strona;
-			}
-			$offset = ($search -1) * $na_stronie;
+			// if ($search < 1)
+			// {
+			// $search = 1;
+			// }
+			// elseif ($search > $ostatnia_strona)
+			// {
+			// $search = $ostatnia_strona;
+			// }
+			// $offset = ($search -1) * $na_stronie;
 			
 			
 			
-			if (isset($_POST['opis'])) {
+			// if (isset($_POST['opis'])) {
 
-			// Checkbox is selected
+			// // Checkbox is selected
 	
-			$lista = mysql_query("SELECT * FROM domek WHERE (Nazwa LIKE '%$nazwa_szukanego_rekordu%') OR (Opis LIKE '%$nazwa_szukanego_rekordu%') ORDER BY Nazwa ASC LIMIT $na_stronie OFFSET $offset");
+			// $lista = mysql_query("SELECT * FROM domek WHERE (Nazwa LIKE '%$nazwa_szukanego_rekordu%') OR (Opis LIKE '%$nazwa_szukanego_rekordu%') ORDER BY Nazwa ASC LIMIT $na_stronie OFFSET $offset");
 	
-			} 
-			else
-			{
+			// } 
+			// else
+			// {
 				
 
-			// Alternate code
+			// // Alternate code
    
-			$lista = mysql_query("SELECT * FROM domek WHERE Nazwa LIKE '%$nazwa_szukanego_rekordu%' ORDER BY Nazwa ASC LIMIT $na_stronie OFFSET $offset");
+			// $lista = mysql_query("SELECT * FROM domek WHERE Nazwa LIKE '%$nazwa_szukanego_rekordu%' ORDER BY Nazwa ASC LIMIT $na_stronie OFFSET $offset");
    
-			}
+			// }
 			
 			
 			
@@ -189,15 +220,16 @@ $user = $_SESSION['username'];
 
 			//$lista = mysql_query($lista);
 		
-			$liczba_wierszy = @mysql_num_rows($lista);
+			//$liczba_wierszy = @mysql_num_rows($ilosc);
 		
 		
 	if ($liczba_wierszy > 0)
 		{
+	echo "<div style ='width: 250px; height: 100px; top: 50px; left: 15px; position: absolute; border: 1px; border-style: none; border-color: #000000; overflow-y: auto; overflow-x: hidden'>";
 	echo "<table border=1><tr>";
 	echo "<td><b>Nazwa</b></td>";
 	echo "<td><b>Opis</b></td></tr>";
-	while ($row = mysql_fetch_row($lista))
+	while ($row = mysql_fetch_row($wyszukane))
 	{
 	
 	echo "<tr><td>". $row[1] ."</td>";
@@ -205,50 +237,51 @@ $user = $_SESSION['username'];
 
 	}
 	echo "</table>";
+	echo "</div>";
 	
 		echo"<br/><br/>";
 		echo"<br/><br/>";
 	
-	if ($ilosc > 5)
-	{
-	echo "Strona ".$search." z ".$ostatnia_strona." ";
+	// if ($ilosc > 5)
+	// {
+	// echo "Strona ".$search." z ".$ostatnia_strona." ";
 
 	
-		if ($search == $ostatnia_strona) //jesli strona jest ostatnia
-		{
-		echo" ";
-		echo"<a href='?search=1'>Pierwsza strona</a>";
-		}
+		// if ($search == $ostatnia_strona) //jesli strona jest ostatnia
+		// {
+		// echo" ";
+		// echo"<a href='?search=1'>Pierwsza strona</a>";
+		// }
 		
-		else // jesli strona nie jest ostatnia
-		{
-		$next = $search + 1;
-		echo" ";
-		echo"<a href='?search=$next'>Następna strona</a>";
+		// else // jesli strona nie jest ostatnia
+		// {
+		// $next = $search + 1;
+		// echo" ";
+		// echo"<a href='?search=$next'>Następna strona</a>";
 		
-		//echo" ";
-		//echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
+		// //echo" ";
+		// //echo"<a href='?pagenum=$ostatnia_strona'>Ostatnia strona</a>";
 			
-		}
+		// }
 		
 		
-		if ($search == 1) //jesli strona jest pierwsza
-		{
-			echo" ";
-			echo"<a href='?search=$ostatnia_strona'>Ostatnia strona</a>";
-		}
+		// if ($search == 1) //jesli strona jest pierwsza
+		// {
+			// echo" ";
+			// echo"<a href='?search=$ostatnia_strona'>Ostatnia strona</a>";
+		// }
 		
-		else // jesli strona nie jest pierwsza
-		{
+		// else // jesli strona nie jest pierwsza
+		// {
 		
-			//echo"<a href='?pagenum=1'>Pierwsza strona</a>";
+			// //echo"<a href='?pagenum=1'>Pierwsza strona</a>";
 		
-		echo" ";
-		$previous = $search - 1;
-		echo"<a href='?search=$previous'>Poprzednia strona</a>";
-		}
+		// echo" ";
+		// $previous = $search - 1;
+		// echo"<a href='?search=$previous'>Poprzednia strona</a>";
+		// }
 	
-		}
+		// }
 		}
 		
 		else
@@ -287,9 +320,6 @@ $user = $_SESSION['username'];
 		{
 		$pagenum = $_GET['pagenum'];
 		}
-
-		echo "Search ".$search;
-		echo "Pagenum ".$pagenum;
 		
 			if ($pagenum < 1)
 			{
@@ -518,10 +548,10 @@ else{
 }
 else
 {
-echo "<div id=login style='margin-top: 100px;'><br/>";
-echo "<h2 style='text-align: center; margin-top: 10px;'>Nie zalogowany. Zaloguj się!</h2>";
+echo "<div id=login style='margin-top: 100px; width: 350px; text-align: center; position: absolute; margin-left: 225px; border-style: none;'><br/>";
+echo "<h2 style='text-align: center; margin-top: 10px;'>Niezalogowany. Zaloguj się!</h2>";
 echo "</div>";
-header('Location: index.php');
+header('Refresh: 5; url=index.php');
 }
 
 ?>
