@@ -163,7 +163,7 @@ $user = $_SESSION['username'];
 					$liczba_wierszy = @mysql_num_rows($wyszukane);
 		
 		echo "<br/>Znalezionych rekordów: ".$liczba_wierszy."<br/>";
-		
+		$lista = $wyszukane;
 		echo"<br/><br/>";
 		echo"<br/><br/>";
 		
@@ -295,7 +295,7 @@ $user = $_SESSION['username'];
 		}
 		
 		
-	else
+	elseif ((!isset($_POST['dodaj'])) and (!isset($_POST['usun'])) and (!isset($_POST['edytuj'])))
 	{
 	$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
 	mysql_select_db($db_name);
@@ -415,13 +415,15 @@ else{
 
 	// formularz wyszukaj
 	
+	if (!isset($_POST['wyswietl']) and (!isset($_POST['dodaj'])) and (!isset($_POST['usun'])) and (!isset($_POST['edytuj'])))
+			{
 			echo "<h2>Wyszukaj: </h2><br />";
 			echo "<form method='post' action=''>";
 			echo "Nazwa: <input type='text' name='nazwa' size='20' placeholder='Wpisz szukane słowo...' /> <br/>";
 			echo "<input type='checkbox' name='opis'/> Szukaj w opisach <br/><br/>";
 			echo "<input type='submit' name='wyszukaj' value='Wyszukaj' /><br/>";
 			echo "</form>";
-			
+			}
 			
 			
 	echo"<br/><br/>";
@@ -454,7 +456,8 @@ else{
 			echo "Opis: <input type='text' name='opis' size='15' /> <br/><br/>";
 			echo "<input type='submit' name='dodaj' value='Dodaj domek' />";
 			echo "</form>";
-			
+			echo "<a href='domki.php'>Wróć</a>";
+			//$lista = $wybrany_rekord;
 			
 		}
 		if (isset($_POST['edytuj']))
@@ -483,6 +486,8 @@ else{
 			echo"<input type='hidden' name='stary_opis' value ='".$row[2]."' />";
 			echo "<input type='submit' name='edytuj' value='Edytuj domek' />";
 			echo "</form>";
+			echo "<a href='domki.php'>Wróć</a>";
+			$lista = $edytowany_rekord;
 			}
 			
 			}
@@ -490,7 +495,7 @@ else{
 		else{
 			
 			echo "Wybierz domek kurwiu";
-			
+			echo "</br></br></br><a href='domki.php'>Wróć</a>";
 		}
 			
 				
@@ -525,12 +530,15 @@ else{
 			echo "<input type='hidden' name='opis' value='". $row[2] ."' size='15' /> <br/><br/>";
 			echo "<input type='submit' name='usun' value='Usuń domek' />";
 			echo "</form>";
+			echo "<a href='domki.php'>Wróć</a>";
+			$lista = $usuwany_rekord;
 			}
 			
 			}
 			else{
 			
 			echo "Wybierz domek kurwiu";
+			echo "<br/></br></br><a href='domki.php'>Wróć</a>";
 			}
 
 		
