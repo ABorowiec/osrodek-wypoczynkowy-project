@@ -174,7 +174,6 @@ padding: 0px;
 table.tabelka
 {
 table-layout: fixed;
-width: 200px;
 border-width: 0px;
 border-color: #000000;
 border-style: none;
@@ -183,6 +182,8 @@ border-style: none;
 
 table.tabelka td
 {
+top: 5px;
+left: 5px;
 border-width: 1px;
 border-color: #000000;
 text-align: center;

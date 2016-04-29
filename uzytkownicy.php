@@ -66,23 +66,23 @@ if ($_POST['dodaj'] == 'Dodaj użytkownika')
 
 	$data=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 	
-	$message1 =  "Dodano użytkownika";
+	$message1 =  "Dodano użytkownika<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";
 
 	}
 	else // jesli istnieje
 	{
 	
-	$message1 = "Nie można dodać użytkownika ponieważ taka nazwa użytkownika już istnieje już w bazie...";	
+	$message1 = "Nie można dodać użytkownika ponieważ taka nazwa użytkownika już istnieje już w bazie...<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";	
 	
 	}
 	
 }
 else{
-	$message1 = "Hasła nie są zgodne...";
+	$message1 = "Hasła nie są zgodne...<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";
 }
 }
 else{
-	$message1 = "Nie wypełniono wszystkich pól...";
+	$message1 = "Nie wypełniono wszystkich pól...<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";
 }
 
 }
@@ -119,7 +119,7 @@ if ($_POST['zmien_haslo'] == 'Zmień hasło')
 	}
 	else
 	{
-	$message1 =  "Nie wybrano użytkownika";
+	$message1 =  "Nie wybrano użytkownika<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";
 		
 		
 		
@@ -148,11 +148,12 @@ $delete = "DELETE FROM users WHERE username = '$user' ";
 
 $results=mysql_query($delete) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 
-$message1 =  "Usunięto użytkownika";
+$message1 =  "Usunięto użytkownika<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";
+
 }
 else
 	{
-	echo "Nie wybrano użytkownika";	
+	echo "Nie wybrano użytkownika<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";	
 		
 		
 		
@@ -166,6 +167,13 @@ else
 //	$message2 = "Whehe is my form2...";
 //}
 
+if (isset($message1))
+{
+echo $message1;
+}
+
+if  ((!isset($_POST['dodaj'])) and (!isset($_POST['usun'])) and (!isset($_POST['zmien_haslo'])))// jeśli strona wyświetla się po raz pierwszy bez użycia formularzy
+{
 $connect=@mysql_connect ($db_host, $db_user, $db_pass) or die ('Nie udało się. Błąd:' .mysql_error());
 
 mysql_select_db($db_name);
@@ -236,7 +244,7 @@ echo "</td></tr>";
 echo "</tr></table>";
 
 
-$usun = "SELECT * FROM users ORDER BY username ASC ";
+$usun = "SELECT * FROM users WHERE level <> 6 ORDER BY username ASC ";
 
 $results=mysql_query($usun) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 
@@ -252,10 +260,6 @@ echo "<option value='". $row3[0] ."'>". $row3[0] ."</option>";
 echo"</SELECT>";
 echo"<input type='submit' name='zmien_haslo' value='Zmień hasło' />";
 echo"<input type='submit' name='usun' value='Usuń użytkownika' /> <br/><br/>";
-if (isset($message1))
-{
-echo $message1;
-}
 echo"</form>";
 
 
@@ -270,20 +274,20 @@ echo"<SELECT name='level'>";
 	echo "<option value='3'>Promotor</option>";
 	echo "<option value='4'>Księgowy</option>";
 	echo "<option value='5'>Właściciel</option>";
-	echo "<option value='6'>Administrator</option>";
+	//echo "<option value='6'>Administrator</option>";
 	echo"</SELECT><br/><br/>";
 echo "<input type='submit' value='Dodaj użytkownika' name='dodaj'> <br/><br/>";
-if (isset($message2))
-{
-echo $message2;
-}
+//if (isset($message2))
+//{
+//echo $message2;
+//}
 echo "</form>";
 
+}
 
 
 
 
-// DIV - FORMULARZ DODAJ NOWEGO USERA;
 
 
 	}

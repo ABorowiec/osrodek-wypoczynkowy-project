@@ -24,8 +24,8 @@ $password = ($_POST['password']);
 
 $password = hash('sha256', $password, false);
 
-echo $username."<br>";
-echo $password;
+//echo $username."<br>";
+//echo $password;
 
 require_once('config.php');
 
