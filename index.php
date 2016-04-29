@@ -81,8 +81,8 @@ mysql_select_db($db_name);
 
 ?>
 
-<div id=site>
-<div id=mainsite style ="width: 850px; height: 1000px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #ffffff;">
+<div id=site style='height: 615px;'>
+<div id=mainsite>
 <h2 style='text-align: center; margin-top: 10px;'>Zaloguj się</h2>
 
 

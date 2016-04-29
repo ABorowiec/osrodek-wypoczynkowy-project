@@ -5,8 +5,8 @@
 <link rel="Stylesheet" type="text/css" href="dane\style.css" />
 </head>
 <body>
-<div id=site style="height: 800px; border: 1px; border-style: none; border-color: #0000ff;">
-<div id=mainsite style ="width: 1100px; height: 1000px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: none; border-color: #000000;">
+<div id=site style='height: 925px;'>
+<div id=mainsite style='height: 815px;'>
 <h1 style='text-align: center; margin-top: 10px; color: #ffffff; '>Lista użytkowników</h1>
 
 <?php
@@ -42,14 +42,16 @@ if ($_POST['dodaj'] == 'Dodaj użytkownika')
 {
 	
 	
-	if ((!empty($_POST['user'])) and(!empty($_POST['password'])) and (!empty($_POST['password2'])) and (!empty($_POST['level'])))
+	if ((!empty($_POST['user'])) and(!empty($_POST['password'])) and (!empty($_POST['password2'])))
 	{
 		$user = $_POST['user'];
 		$password = $_POST['password'];
 		$password2 = $_POST['password2'];
 		$obecna_data = date("Y-m-d H:i:s");
-		$level = $_POST['level'];
 		
+		if (!empty($_POST['level']))
+		{
+			$level = $_POST['level'];
 		
 	if ($password == $password2)
 	{
@@ -79,6 +81,10 @@ if ($_POST['dodaj'] == 'Dodaj użytkownika')
 }
 else{
 	$message1 = "Hasła nie są zgodne...<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";
+}
+	}
+	else{
+	$message1 = "Nie wybrano typu użytkownika...<br/><br/><br/><br/><a href='uzytkownicy.php'>Wróć</a>";
 }
 }
 else{
@@ -313,7 +319,7 @@ header('Refresh: 5; url=index.php');
 ?>
 
 
-<div style='bottom: 10px; left: 350px; position: absolute; text-align: center;'>
+<div id=footer style='top: 820px;'>>
 <a href='domki_panel_glowny.php'>Powrót na stronę główną</a>
 </div>
 

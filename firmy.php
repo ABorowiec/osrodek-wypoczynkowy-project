@@ -11,7 +11,7 @@ require_once('config.php');
 </head>
 <body>
 <div id=site>
-<div id=mainsite style ="width: 850px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #ffffff;">
+<div id=mainsite>
 
 <?php
 
@@ -48,8 +48,8 @@ header('Location: index.php');
 }
 
 ?>
-<div style='bottom: 75px; left: 350px; position: absolute; text-align: center;'>
-<a href='domki_panel_glowny.php'>Powrót na stronę główną</a>
+<div id=footer>
+<center><a href='domki_panel_glowny.php'>Powrót na stronę główną</a></center>
 </div>
 
 </div>

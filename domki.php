@@ -13,38 +13,10 @@ require_once('config.php');
 </head>
 <body>
 
-<div id=site style ="border-style: solid;
-border-width: 2px;
-border-style: none;
-border-color: #ffffff;
-width: 1060px;
-height: 1150px;
-position: absolute;
-top: 0px;
-left: 50%;
-margin-left: -522px;
--webkit-border-top-left-radius: 10px;
--moz-border-top-left-radius: 10px;
-border-top-left-radius: 10px;
--webkit-border-bottom-left-radius: 10px;
--moz-border-bottom-left-radius: 10px;
-border-bottom-left-radius: 10px;
--webkit-border-top-right-radius: 10px;
--moz-border-top-right-radius: 10px;
-border-top-right-radius: 10px;
--webkit-border-bottom-right-radius: 10px;
--moz-border-bottom-right-radius: 10px;
-border-bottom-right-radius: 10px;">
+<div id=site>
 
 
-<div id=mainsite style ="width: 850px; 
-height: 1040px; 
-top: 100px; 
-left: 100px; 
-position: absolute; 
-border: 1px; 
-border-style: none; 
-border-color: #000000;">
+<div id=mainsite>
 
 <?php
 
@@ -567,10 +539,12 @@ header('Refresh: 5; url=index.php');
 ?>
 
 
-<div style='bottom: 75px; left: 350px; position: absolute; text-align: center;'>
+<!-- <div style='bottom: 75px; left: 350px; position: absolute; text-align: center;'>
 <a href='domki_panel_glowny.php'>Powrót na stronę główną</a>
+</div> -->
+<div id=footer>
+<center><a href='domki_panel_glowny.php'>Powrót na stronę główną</a></center>
 </div>
-
 
 </div>
 </div>

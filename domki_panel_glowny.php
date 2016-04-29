@@ -11,7 +11,7 @@ require_once('config.php');
 </head>
 <body>
 <div id=site>
-<div id=mainsite style ="width: 850px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #ffffff;">
+<div id=mainsite>
 
 <?php
 
@@ -35,7 +35,7 @@ if ($_GET['wyloguj'] == 'yes') {
 $level = $_SESSION['level'];
 $username = $_SESSION['username'];
 
-echo "<div style='margin-top: 50px; margin-left: 570px; position: absolute; border: 1px; border-style: none; border-color: #ffffff; font-weight: bold;;'><br/>";
+echo "<div id=logout><br/>";
 echo "Witaj &nbsp <span style='color: #0000ff;'>".$username."</span><br/>";
 echo"<a href='zmien_haslo.php'>Zmień hasło</a><br/>";
 echo"<a href='?wyloguj=yes'>Wyloguj</a>";
