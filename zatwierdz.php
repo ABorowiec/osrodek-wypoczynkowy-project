@@ -1,6 +1,6 @@
 ﻿<?php
-session_start();
-require_once('config.php');
+session_start(); //dołącz plik z ustawieniami
+require_once('config.php'); //wystartuj sesję
 ?>
 
 <html>
@@ -15,22 +15,22 @@ require_once('config.php');
 
 <?php
 
-if(isset($_SESSION['zalogowany']))
+if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 {
-$level = $_SESSION['level'];
-$user = $_SESSION['username'];
+	$level = $_SESSION['level'];
+	$user = $_SESSION['username']; //...pobierz zienne sesyjne
 
 	//$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
 	//mysql_select_db($db_name);
 	//$level_z_bazy = mysql_query("SELECT level FROM users WHERE username = '$user'");
 
-	if ($level == 1 or 2 or 3 or 4 or 5)
+	if ($level == 1 or 2 or 3 or 4 or 5) //jeśli użytkownik ma odpowiednie uprawnienia
 	{
 		
-		if (isset($_POST['dodaj']))
-			{
-				
-				// dodawanie rekordu
+		if (isset($_POST['dodaj'])) //jeśli wysłano formularz (porównaj linijka 431 z pliku domki.php)
+		{
+			
+			// dodawanie rekordu
 			
 			$nazwa_domku = $_POST['nazwa']; 
 			$opis_domku = $_POST['opis']; 
@@ -45,65 +45,65 @@ $user = $_SESSION['username'];
 			}
 			else
 			{
-			
-			//echo $nazwa_domku;
-			//echo $opis_domku;
-			
-			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
-			mysql_select_db($db_name);
-			
-			if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku'")) > 0)
-			{
 				
-				echo "Taki domek już istnieje<br>";
-				//echo $stara_nazwa_domku."<br>";
-				//echo $stary_opis_domku."<br>";
-				//echo "na:<br>";
-				//echo $nazwa_domku."<br>";
-				//echo $opis_domku."<br>";
-				echo "<a href='domki.php'>Wróć</a>";
-				header( 'refresh: 5; url=domki.php' );
+				//echo $nazwa_domku;
+				//echo $opis_domku;
 				
+				$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
+				mysql_select_db($db_name);
 				
-			}
-			
-			else
-			{
-			//
-			
-			
-			
-			$dodawane = "INSERT INTO domek (Nazwa, Opis) VALUES ('$nazwa_domku', '$opis_domku')";
-			$results=mysql_query($dodawane) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
-			
-				if ( $results  ) 
+				if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku'")) > 0)
 				{
-				
-				echo "Pomyślnie dodano rekord do bazy<br>";
-				echo $nazwa_domku."<br>";
-				echo $opis_domku."<br>";
-				echo "<a href='domki.php'>Wróć</a>";
-				header( 'refresh: 5; url=domki.php' );
-				
-				
+					
+					echo "Taki domek już istnieje<br>";
+					//echo $stara_nazwa_domku."<br>";
+					//echo $stary_opis_domku."<br>";
+					//echo "na:<br>";
+					//echo $nazwa_domku."<br>";
+					//echo $opis_domku."<br>";
+					echo "<a href='domki.php'>Wróć</a>";
+					header( 'refresh: 5; url=domki.php' );
+					
+					
 				}
+				
 				else
 				{
+					//
 					
-				echo "Błąd. Nie dodano rekordu do bazy";
-				echo "<a href='domki.php'>Wróć</a>";
-				header( 'refresh: 5; url=domki.php' );				
 					
+					
+					$dodawane = "INSERT INTO domek (Nazwa, Opis) VALUES ('$nazwa_domku', '$opis_domku')";
+					$results=mysql_query($dodawane) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+					
+					if ( $results  ) 
+					{
+						
+						echo "Pomyślnie dodano rekord do bazy<br>";
+						echo $nazwa_domku."<br>";
+						echo $opis_domku."<br>";
+						echo "<a href='domki.php'>Wróć</a>";
+						header( 'refresh: 5; url=domki.php' );
+						
+						
+					}
+					else
+					{
+						
+						echo "Błąd. Nie dodano rekordu do bazy";
+						echo "<a href='domki.php'>Wróć</a>";
+						header( 'refresh: 5; url=domki.php' );				
+						
+					}
 				}
 			}
-			}
-			}
-		if (isset($_POST['edytuj']))
-			{
-				// edycja rekordu
+		}
+		if (isset($_POST['edytuj'])) //jeśli wysłano formularz (porównaj linijka 461 z pliku domki.php)
+		{
+			// edycja rekordu
 
-				
-				
+			
+			
 			$nazwa_domku = $_POST['nazwa']; 
 			$opis_domku = $_POST['opis']; 
 			$stara_nazwa_domku = $_POST['stara_nazwa']; 
@@ -125,64 +125,64 @@ $user = $_SESSION['username'];
 			
 			else
 			{
-			
-			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
-			mysql_select_db($db_name);
-			
-			//
-			
-			if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku' && Opis = '$opis_domku' ")) > 0)
-			{
 				
-				echo "Taki domek już istnieje lub nie zeedytowano wpisu...<br>";
-				//echo $stara_nazwa_domku."<br>";
-				//echo $stary_opis_domku."<br>";
-				//echo "na:<br>";
-				//echo $nazwa_domku."<br>";
-				//echo $opis_domku."<br>";
-				echo "<a href='domki.php'>Wróć</a>";
-				header( 'refresh: 5; url=domki.php' );
+				$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie"); //połącz się z bazą a w razie nieudanej próby wyświetl błąd
+				mysql_select_db($db_name); // ...wybierz bazę
 				
+				//
 				
-			}
-			
-			else
-			{
-			//
-			
-			$edytowany_rekord = "UPDATE domek SET Nazwa = '$nazwa_domku', Opis = '$opis_domku' WHERE Nazwa = '$stara_nazwa_domku' AND Opis = '$stary_opis_domku' ";
-			$results=mysql_query($edytowany_rekord) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
-			
-				if ( $results  ) 
+				if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku' && Opis = '$opis_domku' ")) > 0)
 				{
-				
-				echo "Pomyślnie zedytowano rekord z bazy<br>";
-				echo $stara_nazwa_domku."<br>";
-				echo $stary_opis_domku."<br>";
-				echo "na:<br>";
-				echo $nazwa_domku."<br>";
-				echo $opis_domku."<br>";
-				echo "<a href='domki.php'>Wróć</a>";
-				header( 'refresh: 5; url=domki.php' );
-				
+					
+					echo "Taki domek już istnieje lub nie zeedytowano wpisu...<br>";
+					//echo $stara_nazwa_domku."<br>";
+					//echo $stary_opis_domku."<br>";
+					//echo "na:<br>";
+					//echo $nazwa_domku."<br>";
+					//echo $opis_domku."<br>";
+					echo "<a href='domki.php'>Wróć</a>";
+					header( 'refresh: 5; url=domki.php' );
+					
+					
 				}
+				
 				else
 				{
+					//
 					
-				echo "Błąd. Nie zedytowano rekordu z bazy";	
-				echo "<a href='domki.php'>Wróć</a>";
-				header( 'refresh: 5; url=domki.php' );
+					$edytowany_rekord = "UPDATE domek SET Nazwa = '$nazwa_domku', Opis = '$opis_domku' WHERE Nazwa = '$stara_nazwa_domku' AND Opis = '$stary_opis_domku' ";
+					$results=mysql_query($edytowany_rekord) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+					
+					if ( $results  ) 
+					{
+						
+						echo "Pomyślnie zedytowano rekord z bazy<br>";
+						echo $stara_nazwa_domku."<br>";
+						echo $stary_opis_domku."<br>";
+						echo "na:<br>";
+						echo $nazwa_domku."<br>";
+						echo $opis_domku."<br>";
+						echo "<a href='domki.php'>Wróć</a>";
+						header( 'refresh: 5; url=domki.php' );
+						
+					}
+					else
+					{
+						
+						echo "Błąd. Nie zedytowano rekordu z bazy";	
+						echo "<a href='domki.php'>Wróć</a>";
+						header( 'refresh: 5; url=domki.php' );
+						
+					}
 					
 				}
-				
-			}
 			}			
-			}
-		if (isset($_POST['usun']))
-			{
-				// usuwanie rekordu
-				
-				
+		}
+		if (isset($_POST['usun'])) //jeśli wysłano formularz (porównaj linijka 505 z pliku domki.php)
+		{
+			// usuwanie rekordu
+			
+			
 			
 			$nazwa_domku = $_POST['nazwa']; 
 			$opis_domku = $_POST['opis']; 
@@ -190,16 +190,16 @@ $user = $_SESSION['username'];
 			//echo $nazwa_domku;
 			//echo $opis_domku;
 			
-			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
-			mysql_select_db($db_name);
+			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie"); //połącz się z bazą a w razie nieudanej próby wyświetl błąd
+			mysql_select_db($db_name); // ...wybierz bazę
 			
 			//
 			
 			$usuwany_rekord = "DELETE FROM domek WHERE Nazwa = '$nazwa_domku' AND Opis = '$opis_domku'";
-			$results=mysql_query($usuwany_rekord) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+			$results=mysql_query($usuwany_rekord) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error()); //ztwierdź komendę mysql
 			
-				if ( $results  ) 
-				{
+			if ( $results  ) 
+			{
 				
 				echo "Usunięto rekord z bazy<br>";
 				echo $nazwa_domku."<br>";
@@ -207,19 +207,19 @@ $user = $_SESSION['username'];
 				echo "<a href='domki.php'>Wróć</a>";
 				header( 'refresh: 5; url=domki.php' );
 				
-				}
-				else
-				{
-					
+			}
+			else
+			{
+				
 				echo "Błąd. Nie usunięto rekordu z bazy";	
 				echo "<a href='domki.php'>Wróć</a>";
 				header( 'refresh: 5; url=domki.php' );
-					
-				}
 				
-				
-			
 			}
+			
+			
+			
+		}
 		//else
 		//	{
 		//	
@@ -230,17 +230,17 @@ $user = $_SESSION['username'];
 	}
 	else
 	{
-	echo "<b>Nieodpowiednie uprawnienia. Zostaniesz przekierowany w ciągu 5 sekund...</b>";
-	header('Refresh: 5; url=domki_panel_glowny.php');
+		echo "<b>Nieodpowiednie uprawnienia. Zostaniesz przekierowany w ciągu 5 sekund...</b>";
+		header('Refresh: 5; url=domki_panel_glowny.php');
 	}
 
 }
 else
 {
-echo "<div id=login style='margin-top: 100px;'><br/>";
-echo "<h2 style='text-align: center; margin-top: 10px;'>Nie zalogowany. Zaloguj się!</h2>";
-echo "</div>";
-header('Location: index.php');
+	echo "<div id=login style='margin-top: 100px;'><br/>";
+	echo "<h2 style='text-align: center; margin-top: 10px;'>Nie zalogowany. Zaloguj się!</h2>";
+	echo "</div>";
+	header('Location: index.php');
 }
 
 ?>
