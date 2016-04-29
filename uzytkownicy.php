@@ -5,8 +5,8 @@
 <link rel="Stylesheet" type="text/css" href="dane\style.css" />
 </head>
 <body>
-<div id=site style="height: 1400px; border: 1px; border-style: none; border-color: #0000ff;">
-<div id=mainsite style ="width: 1100px; height: 1300px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #000000;">
+<div id=site style="height: 800px; border: 1px; border-style: none; border-color: #0000ff;">
+<div id=mainsite style ="width: 1100px; height: 1000px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: none; border-color: #000000;">
 <h1 style='text-align: center; margin-top: 10px; color: #ffffff; '>Lista użytkowników</h1>
 
 <?php
@@ -20,6 +20,21 @@ $level = $_SESSION['level'];
 
 if ($level == 6)
 {
+	function rand_string( $length ) 
+	{
+	
+	$str = "";
+
+	
+	$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";	
+
+	$size = strlen( $chars );
+	for( $i = 0; $i < $length; $i++ ) {
+		$str .= $chars[ rand( 0, $size - 1 ) ];
+	}
+
+	return $str;
+	}
 	
 if (isset($_POST['dodaj']))
 {
@@ -51,7 +66,7 @@ if ($_POST['dodaj'] == 'Dodaj użytkownika')
 
 	$data=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 	
-	
+	$message1 =  "Dodano użytkownika";
 
 	}
 	else // jesli istnieje
@@ -76,11 +91,53 @@ else{
 //	$message1 = "Whehe is my form...";
 //}
 
+if (isset($_POST['zmien_haslo']))
+{
+if ($_POST['zmien_haslo'] == 'Zmień hasło')
+{
+	
+	
+	
+	if (isset($_POST['user']))
+	{
+		
+		$username = $_POST['user'];
+		$nowe_hasło = rand_string(10);
+		
+		$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
+		mysql_select_db($db_name);
+		
+		
+		$password = hash('sha256', $nowe_hasło, false);	
+		//$password = $nowe_hasło;	
+		
+			$sql="UPDATE users SET password = '$password' WHERE username='$username'";
+		
+		$data=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+
+		$message1="Pomyślnie zmieniono hasło na: ".$nowe_hasło;
+	}
+	else
+	{
+	$message1 =  "Nie wybrano użytkownika";
+		
+		
+		
+	}
+	
+	
+}
+}
+
+
+
 if (isset($_POST['usun']))
 {
 if ($_POST['usun'] == 'Usuń użytkownika')
 {
 
+if (isset($_POST['user']))
+{
 $user = $_POST['user'];
 
 $connect=@mysql_connect ($db_host, $db_user, $db_pass) or die ('Nie udało się. Błąd:' .mysql_error());
@@ -92,6 +149,15 @@ $delete = "DELETE FROM users WHERE username = '$user' ";
 $results=mysql_query($delete) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 
 $message1 =  "Usunięto użytkownika";
+}
+else
+	{
+	echo "Nie wybrano użytkownika";	
+		
+		
+		
+	}
+
 
 }
 
@@ -178,11 +244,13 @@ $results=mysql_query($usun) or die ('Wykonanie zapytania nie powodło sie. Błą
 
 echo"<form method='post' action='' style='margin-top: 210px; margin-bottom: 40px;'>";
 echo"<SELECT name='user'>";
+echo"<option selected disabled>Wybierz nazwę użytkownika...</option>";
 while ($row3 = mysql_fetch_row($results))
 {
 echo "<option value='". $row3[0] ."'>". $row3[0] ."</option>";
 }
 echo"</SELECT>";
+echo"<input type='submit' name='zmien_haslo' value='Zmień hasło' />";
 echo"<input type='submit' name='usun' value='Usuń użytkownika' /> <br/><br/>";
 if (isset($message1))
 {

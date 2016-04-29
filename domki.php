@@ -431,6 +431,8 @@ else{
 	
 	@mysql_data_seek($lista, 0);
 	
+	If (!empty($lista))
+	{
 	echo"<form method='post' action=''>";
 	echo"<SELECT name='lista'>";
 	echo"<option selected disabled>Wybierz domek</option>";
@@ -444,7 +446,7 @@ else{
 	echo"<input type='submit' name='edytuj' value='Edytuj' />";
 	echo"<input type='submit' name='usun' value='Usuń' />";
 	echo"</form>";
-	
+	}
 		
 		if (isset($_POST['dodaj']))
 		{

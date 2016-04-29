@@ -37,6 +37,7 @@ $username = $_SESSION['username'];
 
 echo "<div style='margin-top: 50px; margin-left: 570px; position: absolute; border: 1px; border-style: none; border-color: #ffffff; font-weight: bold;;'><br/>";
 echo "Witaj &nbsp <span style='color: #0000ff;'>".$username."</span><br/>";
+echo"<a href='zmien_haslo.php'>Zmień hasło</a><br/>";
 echo"<a href='?wyloguj=yes'>Wyloguj</a>";
 echo "</div>";
 //echo "<h2 style='text-align: center; margin-top: 10px;'>Panel pracownika</h2>";
@@ -130,7 +131,9 @@ header('Location: index.php');
  // </div>
 ?>
 
-
+<div style='bottom: 75px; left: 350px; position: absolute; text-align: center;'>
+<a href='domki_panel_glowny.php'>Powrót na stronę główną</a>
+</div>
 
 </div>
 </div>

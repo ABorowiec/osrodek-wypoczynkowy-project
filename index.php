@@ -24,6 +24,9 @@ $password = ($_POST['password']);
 
 $password = hash('sha256', $password, false);
 
+echo $username."<br>";
+echo $password;
+
 require_once('config.php');
 
 $connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
