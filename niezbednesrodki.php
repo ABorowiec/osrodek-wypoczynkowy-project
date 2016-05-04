@@ -17,6 +17,7 @@ require_once('config.php');
 
 if(isset($_SESSION['zalogowany']))
 {
+
 	$level = $_SESSION['level'];
 	$user = $_SESSION['username'];
 
@@ -24,7 +25,7 @@ if(isset($_SESSION['zalogowany']))
 	//mysql_select_db($db_name);
 	//$level_z_bazy = mysql_query("SELECT level FROM users WHERE username = '$user'");
 
-	if ($level == 6 || $level == 5 ||$level == 1)
+	if ($level == 6 || $level == 5 || $level == 4)
 	{
 		echo "<table><tr>";
 		echo "<td>Dodaj</td>";
@@ -37,6 +38,7 @@ if(isset($_SESSION['zalogowany']))
 		echo "<b>Nieodpowiednie uprawnienia. Zostaniesz przekierowany w ciągu 5 sekund...</b>";
 		header('Refresh: 5; url=domki_panel_glowny.php');
 	}
+
 
 }
 else
@@ -51,6 +53,7 @@ else
 
 
 </div>
+
 <div id=footer>
 <center><a href='domki_panel_glowny.php'>Powrót na stronę główną</a></center>
 </div>
