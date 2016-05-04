@@ -8,83 +8,78 @@
 
 <?php
 
-require_once('config.php'); //dołącz plik z ustawieniami
-session_start(); //wystartuj sesję
+session_start();
 
-
-if(isset($_SESSION['zalogowany'])) //jeśli user jest zalogowany...
+if(isset($_SESSION['zalogowany']))
 {
-	header('Location: domki_panel_glowny.php'); //...przenieś go na do panelu głównego
+header('Location: domki_panel_glowny.php');
 }
 
-if (isset($_POST['submit'])) //jeśli formularz został wysłany
+if (isset($_POST['submit']))
 {
-	//if ($_POST['submit'] == 'Zaloguj')
-	//{
-		$username = ($_POST['username']); //przypisz zmiennej nazwę i hasło
-		$password = ($_POST['password']);
+if ($_POST['submit'] == 'Zaloguj')
+{
+$username = ($_POST['username']);
+$password = ($_POST['password']);
 
-		$password = hash('sha256', $password, false); //zaszyfruj hasło
+//$password = hash('sha256', $password, false);
 
-		//echo $username."<br>";
-		//echo $password;
+require_once('config.php');
 
+$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
+mysql_select_db($db_name);
+
+	if(mysql_num_rows(mysql_query("SELECT username, password FROM users WHERE username = '$username' && password = '$password' ")) > 0)
+    {
+	
+	$sql = "SELECT level FROM users WHERE username = '$username' && password = '$password' ";
+	
+	$lev = mysql_query($sql);
+	//echo $username;
+	//echo $password;
+	
+	$row = mysql_fetch_row($lev);
+	$level = $row[0];
+	$ip = $_SERVER['REMOTE_ADDR'];
+	$obecna_data = date("Y-m-d H:i:s");
+	
+	$update =	"UPDATE users SET ip_login='$ip', date_login='$obecna_data'
+				WHERE username = '$username'";
+	$updating = mysql_query($update);
+	
+		if ( $updating)
+		{
+			$_SESSION['zalogowany'] = true;
+			$_SESSION['username'] = $username;
+			$_SESSION['level'] = $level;
+			header('Location: domki_panel_glowny.php');
+		}
+	
+	
+	
+	
 		
-
-		$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie"); //połącz się z bazą a w razie nieudanej próby wyświetl błąd
-		mysql_select_db($db_name); // wybierz bazę dabych
-
-		if(mysql_num_rows(mysql_query("SELECT username, password FROM users WHERE username = '$username' && password = '$password' ")) > 0) //jeśli w bazie występuje użytkownik o takiej nazwie i haśle (ilość > 0)...
-		{
-			
-			$sql = "SELECT level FROM users WHERE username = '$username' && password = '$password' "; //...pobierz uprawnienia tego użytkownika z bazy
-			
-			$lev = mysql_query($sql); //zatwierdź komendę mysql
-			//echo $username;
-			//echo $password;
-			
-			$row = mysql_fetch_row($lev); //przypisanie zmiennej wierszy z bazy
-			$level = $row[0]; // przypisz zmiennej uprawnienia pobrane z bazy
-			$ip = $_SERVER['REMOTE_ADDR']; // pobierz adres IP logowania użytkownika
-			$obecna_data = date("Y-m-d H:i:s"); // pobierz obecną datę
-			
-			$update =	"UPDATE users SET ip_login='$ip', date_login='$obecna_data'
-				WHERE username = '$username'"; // wpisz do bazy datę jako datę logowania
-			$updating = mysql_query($update); // zatwierdź komendę mysql...
-			
-			if ( $updating) //...a jeśli operacja została wykonana pomyślnie...
-			{
-				$_SESSION['zalogowany'] = true;
-				$_SESSION['username'] = $username;
-				$_SESSION['level'] = $level; //...przypisz zmiennym sesyjnym nazwę, hasło oraz uprawnienia użytkownika...
-				header('Location: domki_panel_glowny.php'); //... i przejdź do panelu głównego
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-		}
-		else // jeśli nie znaleziono takiego użytkownika z hasłem w bazie...
-		{
-			//echo mysql_error();
-			$message = '<B>Nieprawidłowy login lub hasło</B>'; //...wyświetl komunikat
-		}
-	//}	
-	//else
-	//{
-	//	header('Location: index.php');
-	//}
+			  
+	
+	
+	}
+	else
+	{
+	//echo mysql_error();
+	echo "Nieprawidłowe dane";
+	}
+}	
+//else
+//{
+//	header('Location: index.php');
+//}
 }
 
 
 ?>
 
-<div id=site style='height: 615px;'>
-<div id=mainsite>
+<div id=site>
+<div id=mainsite style ="width: 850px; height: 1000px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #ffffff;">
 <h2 style='text-align: center; margin-top: 10px;'>Zaloguj się</h2>
 
 
@@ -95,14 +90,10 @@ if (isset($_POST['submit'])) //jeśli formularz został wysłany
 <td><b>hasło:</b> </td><td><input type='password' name='password'> <br/> </td>
 </tr></table>
 
-<input type='submit' value='Zaloguj' name='submit'> <br/><br/> <!-- nazwa przycisku - porównaj z linijką nr 20 -->
+<input type='submit' value='Zaloguj' name='submit'> <br/><br/>
 
-<?php
-if(isset($message)) //jeśli zadeklarowano zmienną komunikatu...
-{
-	echo $message; //...wyświetl komunikat
-}
-?>
+<a href = 'sc_remind_password.php' >Przypomnij hasło</a>
+
 </form>
 
 </div>
