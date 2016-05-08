@@ -1,0 +1,19 @@
+//character_set_client 	latin1 - Zmieniæ w bazie administrator
+//collation_connection 	latin1_swedish_ci - Zmieniæ w bazie administrator
+//Database Collation 		utf8_polish_ci - Zmieniæ w bazie administrator
+
+
+// domki.php - dodawanie i edycja ceny domku
+
+// przy usuwaniu domku w domki.php uniemo¿liwij usuwanie zakwaterowanych domków
+
+// przy usuwaniu domku w domki.php usuwaj oprócz danych domku z tabeli domek dane z tabeli rezerwacje, promocje oraz zamowienie jesli coœ w nich istnieje
+
+// drop procedure nowe zamowienie
+
+// w rezerwuj.php przy dodawaniu zamówienia sprawdŸ czy taki nr telefonu klienta istnieje ju¿ w bazie
+
+procedure nowe zamowienie - wiadomoœci -> dodaj - 4 kwerenda do poprawienia
+
+// wyœwietlane listy domków - rezerwuj.php i domki.php - dodaæ cenê zakwaterowanie itd.
+
