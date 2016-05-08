@@ -57,11 +57,13 @@ if(isset($_SESSION['zalogowany'])) // jeśli zalogowany
 				{
 					echo "<table border=1><tr>";
 					echo "<td><b>Nazwa</b></td>";
+					echo "<td><b>Cena</b></td>";
 					echo "<td><b>Opis</b></td></tr>";
 					while ($row = mysql_fetch_row($wybrany_rekord))
 					{
 						
 						echo "<tr><td>". $row[1] ."</td>";
+						echo "<td>". $row[4] ."</td>";
 						echo "<td>". $row[2] ."</td></tr>";
 
 					}
@@ -200,11 +202,13 @@ if(isset($_SESSION['zalogowany'])) // jeśli zalogowany
 					echo "<div style ='width: 250px; height: 100px; top: 50px; left: 15px; position: absolute; border: 1px; border-style: none; border-color: #000000; overflow-y: auto; overflow-x: hidden'>";
 					echo "<table border=1><tr>";
 					echo "<td><b>Nazwa</b></td>";
+					echo "<td><b>Cena</b></td>";
 					echo "<td><b>Opis</b></td></tr>";
 					while ($row = mysql_fetch_row($wyszukane))
 					{
 						
 						echo "<tr><td>". $row[1] ."</td>";
+						echo "<td>". $row[4] ."</td>";
 						echo "<td>". $row[2] ."</td></tr>";
 
 					}
@@ -317,11 +321,13 @@ if(isset($_SESSION['zalogowany'])) // jeśli zalogowany
 			{
 				echo "<table border=1><tr>";
 				echo "<td><b>Nazwa</b></td>";
+				echo "<td><b>Cena</b></td>";
 				echo "<td><b>Opis</b></td></tr>";
 				while ($row = mysql_fetch_row($lista))
 				{
 					
 					echo "<tr><td>". $row[1] ."</td>";
+					echo "<td>". $row[4] ."</td>";
 					echo "<td>". $row[2] ."</td></tr>";
 
 				}
@@ -427,6 +433,7 @@ if(isset($_SESSION['zalogowany'])) // jeśli zalogowany
 			echo "<h1>Dodaj do bazy</h1>";
 			echo "<form method='post' action='zatwierdz.php'>";
 			echo "Nazwa: <input type='text' name='nazwa' size='15' /> <br/><br/>";
+			echo "Cena: <input type='text' name='cena' size='15' /> <br/><br/>";
 			echo "Opis: <input type='text' name='opis' size='15' /> <br/><br/>";
 			echo "<input type='submit' name='dodaj' value='Dodaj domek' />";
 			echo "</form>";
@@ -455,9 +462,11 @@ if(isset($_SESSION['zalogowany'])) // jeśli zalogowany
 				{
 					echo "<form method='post' action='zatwierdz.php'>";
 					echo "Nazwa: <input type='text' name='nazwa' value='". $row[1] ."' size='15' /> <br/><br/>";
+					echo "Cena: <input type='text' name='cena' value='". $row[4] ."' size='15' /> <br/><br/>";
 					echo "Opis: <input type='text' name='opis' value='". $row[2] ."' size='15' /> <br/><br/>";
 					echo"<input type='hidden' name='stara_nazwa' value ='".$row[1]."' />";
 					echo"<input type='hidden' name='stary_opis' value ='".$row[2]."' />";
+					echo"<input type='hidden' name='stara_cena' value ='".$row[4]."' />";
 					echo "<input type='submit' name='edytuj' value='Edytuj domek' />";
 					echo "</form>";
 					echo "<a href='domki.php'>Wróć</a>";
@@ -499,7 +508,8 @@ if(isset($_SESSION['zalogowany'])) // jeśli zalogowany
 				
 				if ($row = mysql_fetch_row($usuwany_rekord)) // jeśli wybrano rekord
 				{
-					echo "Nazwa: " .$row[1] ."<br>";	
+					echo "Nazwa: " .$row[1] ."<br>";
+					echo "Cena: " .$row[4] ."<br>";
 					echo "Opis: ".$row[2] ."<br>";
 					echo "<form method='post' action='zatwierdz.php'>";
 					echo "<input type='hidden' name='nazwa' value='". $row[1] ."' size='15' /> <br/><br/>";

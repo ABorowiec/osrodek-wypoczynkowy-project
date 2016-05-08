@@ -32,10 +32,11 @@ if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 			
 			// dodawanie rekordu
 			
-			$nazwa_domku = $_POST['nazwa']; 
+			$nazwa_domku = $_POST['nazwa'];
+			$cena_domku = $_POST['cena']; 
 			$opis_domku = $_POST['opis']; // przypisanie zmiennych
 			
-			if  ((empty($nazwa_domku)) or (empty($opis_domku ))) //jeśli user nie wypełnił wszystkich pól
+			if  ((empty($nazwa_domku)) or (empty($opis_domku)) or (empty($cena_domku))) //jeśli user nie wypełnił wszystkich pól
 			{
 				
 				echo "Nie wypełniono wszystkich pól formularza...";
@@ -73,7 +74,7 @@ if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 					
 					
 					
-					$dodawane = "INSERT INTO domek (Nazwa, Opis) VALUES ('$nazwa_domku', '$opis_domku')"; //wstaw nowy rekord
+					$dodawane = "INSERT INTO domek (Nazwa, Opis, Cena) VALUES ('$nazwa_domku', '$opis_domku', $cena_domku)"; //wstaw nowy rekord
 					$results=mysql_query($dodawane) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error()); //zatwierdź komendę lub wyświetl błąd
 					
 					if ( $results  ) //jeśli powiodło się
@@ -104,7 +105,9 @@ if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 
 			
 			
-			$nazwa_domku = $_POST['nazwa']; 
+			$nazwa_domku = $_POST['nazwa'];
+			$cena_domku = $_POST['cena']; 
+			$stara_cena_domku = $_POST['stara_cena']; 
 			$opis_domku = $_POST['opis']; 
 			$stara_nazwa_domku = $_POST['stara_nazwa']; 
 			$stary_opis_domku = $_POST['stary_opis']; // przypisz zmienne
@@ -131,7 +134,7 @@ if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 				
 				//
 				
-				if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku' && Opis = '$opis_domku' ")) > 0) // jeśli istnieje w bazie
+				if(mysql_num_rows(mysql_query("SELECT Nazwa FROM domek WHERE Nazwa = '$nazwa_domku' && Opis = '$opis_domku' && Cena= $cena_domku ")) > 0) // jeśli istnieje w bazie
 				{
 					
 					echo "Taki domek już istnieje lub nie zeedytowano wpisu...<br>";
@@ -150,18 +153,20 @@ if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 				{
 					//
 					
-					$edytowany_rekord = "UPDATE domek SET Nazwa = '$nazwa_domku', Opis = '$opis_domku' WHERE Nazwa = '$stara_nazwa_domku' AND Opis = '$stary_opis_domku' ";
+					$edytowany_rekord = "UPDATE domek SET Nazwa = '$nazwa_domku', Opis = '$opis_domku', Cena = '$cena_domku' WHERE Nazwa = '$stara_nazwa_domku' AND Opis = '$stary_opis_domku' ";
 					$results=mysql_query($edytowany_rekord) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 					
-					if ( $results  // jeśli się powiodło edytowanie rekordu w bazie
+					if ( $results)  // jeśli się powiodło edytowanie rekordu w bazie
 					{
 						
 						echo "Pomyślnie zedytowano rekord z bazy<br>";
 						echo $stara_nazwa_domku."<br>";
 						echo $stary_opis_domku."<br>";
+						echo $stara_cena_domku."<br>";
 						echo "na:<br>";
 						echo $nazwa_domku."<br>";
 						echo $opis_domku."<br>";
+						echo $cena_domku."<br>";
 						echo "<a href='domki.php'>Wróć</a>";
 						header( 'refresh: 5; url=domki.php' ); // przekieruj po 5 sek.	
 						
@@ -193,7 +198,12 @@ if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 			$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie"); //połącz się z bazą a w razie nieudanej próby wyświetl błąd
 			mysql_select_db($db_name); // ...wybierz bazę
 			
-			//
+			//mysql_query(SELECT rezerwacja FROM domek WHERE Nazwa = '$nazwa_domku')
+			//$zakwaterowanie=mysql_query($pobierz) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error()); //...zatwierdź komendę mysql
+			
+			if (mysql_num_rows(mysql_query("SELECT * FROM domek WHERE Nazwa = '$nazwa_domku' AND Rezerwacja = 1 ")) == 0) //jeśli domek nie jest zakwaterowany...
+			{
+			//...usuwaj domek
 			
 			$usuwany_rekord = "DELETE FROM domek WHERE Nazwa = '$nazwa_domku' AND Opis = '$opis_domku'"; // ...usuń rekord domku
 			$results=mysql_query($usuwany_rekord) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error()); //...zatwierdź komendę mysql
@@ -217,13 +227,23 @@ if(isset($_SESSION['zalogowany'])) //jeśli zalogowany...
 				
 			}
 			
-			
-			
 		}
+			else{
+				
+				echo "Nie można usunąć domku ponieważ jest aktualnie zakwaterowany...";
+				echo "<a href='domki.php'>Wróć</a>";
+			}	
+		}	
+
+
+		
+
+			
+
 		//else
 		//	{
 		//	
-		//		echo "Brak danych";
+		//		echo Brak danych;
 		//	
 		//	}
 		//mysql_close($connection);

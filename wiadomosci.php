@@ -28,17 +28,42 @@ if(isset($_SESSION['zalogowany']))
 			
 			if (isset($_POST['lista'])) // jeśli wybrano domek
 			{
-			$wybrany_domek =  $_POST['lista']; // przypisz zmienną
-			echo $wybrany_domek;
+			$wybrany_domek =  $_POST['lista']; // przypisz zmienne
+			$id_zamowienia =  $_POST['id'];
+			$imie =  $_POST['imie'];
+			$nazwisko =  $_POST['nazwisko'];
+			$tel =  $_POST['telefon'];
+			$uwagi =  $_POST['uwagi'];
+			//echo $wybrany_domek;
+			echo $imie."<br>";
+			echo $nazwisko;
 			
 			
 				$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie"); //połącz z bazą/wyświetl błąd
 				mysql_select_db($db_name); //wybierz bazę
 				//$wybrany_rekord = ""; // wybierz rekord do wyświetlenia
 				//mysql_query($wybrany_rekord);
-				// usuń z tabeli zamówienia
-				// dodaj do tabeli klienci
-				// dodAj do tabeli rezerwacje
+				// CALL PROCEDURE Nowa_rezerwacja (nazwy zmiennych)
+				
+				
+			// CREATE PROCEDURE Nowa_rezerwacja (IN Domek varchar(30), IN Imie varchar(20), IN Nazwisko VARCHAR(50), IN Telefon int(9), IN Ilosc_dni int(11), IN ID int)
+
+				
+				$sql="CALL Nowa_rezerwacja('$wybrany_domek', '$imie', '$nazwisko', $tel, $uwagi, $id_zamowienia)";
+
+				$results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+				
+				
+				if ( $results  ) //jeśli powiodło się
+					{
+						
+						$message = "Dodano nową rezerwację";
+						
+						
+					}
+
+				
+				
 			}
 			else //...a jeśli nie
 			{ 
@@ -57,17 +82,32 @@ if(isset($_SESSION['zalogowany']))
 			
 			if (isset($_POST['lista'])) // jeśli wybrano domek
 			{
-			$wybrany_domek =  $_POST['lista']; // przypisz zmienną
-			echo $wybrany_domek;
-			
+			$wybrany_domek =  $_POST['lista']; // przypisz zmienne
+			$id_zamowienia =  $_POST['id'];
+			//echo $wybrany_domek."<br><br>";
+			//echo $$id_zamowienia;
 			
 				$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie"); //połącz z bazą/wyświetl błąd
 				mysql_select_db($db_name); //wybierz bazę
 				//$wybrany_rekord = ""; // wybierz rekord do wyświetlenia
 				//mysql_query($wybrany_rekord);
-				// usuń z tabeli zamówienia
-				// dodaj do tabeli klienci
-				// dodAj do tabeli rezerwacje
+				// CALL PROCEDURE Nowa_rezerwacja (nazwy zmiennych)
+				
+				$sql="DELETE from zamowienia WHERE ID = '$id_zamowienia' AND domek='$wybrany_domek'";
+
+					
+					
+				$results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+
+					
+					if ( $results  ) //jeśli powiodło się
+					{
+						
+						$message = "Usunięto zamówienie";
+						
+						
+					}
+					
 			}
 			else //...a jeśli nie
 			{ 
@@ -206,9 +246,20 @@ if(isset($_SESSION['zalogowany']))
 				echo"<option selected disabled>Wybierz domek</option>";
 				while ($row2 = mysql_fetch_row($lista))
 				{
-					echo "<option value='". $row2[1] ."'>". $row2[1] ."</option>";
+					echo "<option value='". $row2[1] ."'>". $row2[1] ."</option>";  //pole domek
 				}
 				echo"</SELECT>";
+				@mysql_data_seek($lista, 0); // powrót na początek listy
+
+				while ($row3 = mysql_fetch_row($lista))
+				{
+					echo "<input type=hidden name=id_domku value='". $row3[5] ."'>";  //pole uwagi
+					echo "<input type=hidden name=id value='". $row3[0] ."'>";  //pole id_zamówienia
+					echo "<input type=hidden name=imie value='". $row3[2] ."'>";  //pole imie
+					echo "<input type=hidden name=nazwisko value='". $row3[3] ."'>";  //pole nazwisko
+					echo "<input type=hidden name=telefon value='". $row3[4] ."'>";  //pole telefon
+					echo "<input type=hidden name=uwagi value='". $row3[5] ."'>";  //pole uwagi
+				}
 				echo"<input type='submit' name='zaakceptuj' value='Zaakceptuj' />";
 				echo"<input type='submit' name='usun' value='Usuń' />";
 				echo"<br/><br/>";

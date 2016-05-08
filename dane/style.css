@@ -21,7 +21,7 @@ table.tabelka
 {
     table-layout: fixed;
     border-width: 0px;
-    border-color: #000000;
+    /* border-color: #ff0000; */
     border-style: none;
 }
 

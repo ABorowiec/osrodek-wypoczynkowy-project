@@ -22,14 +22,22 @@ require_once('config.php');
 		if ((isset($_POST['lista'])) and (isset($_POST['imie'])) and (isset($_POST['nazwisko'])) and (isset($_POST['telefon'])) and (isset($_POST['okres'])))
 		{
 		$nazwa_domku = $_POST['lista']; //przypisz zmienne
+		$id_domku = $_POST['id_domku'];
 		$imie_klienta = $_POST['imie'];
 		$nazwisko_klienta = $_POST['nazwisko'];
 		$telefon = $_POST['telefon'];
 		$uwagi = $_POST['okres'];
+		//echo $uwagi;
+		//echo $id_domku;
 		
 		$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
 		mysql_select_db($db_name);
-		$dodawane = "INSERT INTO zamowienia (Domek, Imie, Nazwisko, Telefon, Uwagi) VALUES ('$nazwa_domku', '$imie_klienta', '$nazwisko_klienta', '$telefon', '$uwagi')"; //wstaw nowy rekord
+		
+		
+		if(mysql_num_rows(mysql_query("SELECT Telefon FROM klient WHERE Telefon = '$telefon' ")) == 0) //jeśli w bazie występuje  (ilość > 0)...
+		{
+		
+		$dodawane = "INSERT INTO zamowienia (ID_Domek, Imie, Nazwisko, Telefon, Uwagi) VALUES ($id_domku, '$imie_klienta', '$nazwisko_klienta', '$telefon', '$uwagi')"; //wstaw nowy rekord
 		$results=mysql_query($dodawane) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error()); //zatwierdź komendę lub wyświetl błąd
 		
 		
@@ -40,7 +48,14 @@ require_once('config.php');
 				
 			}
 		
+		}
+		else
+		{
+			
+				$message = "Taki telefon już istnieje w bazie..."; //...wyświetl komunikat
 		
+		
+		}
 	}
 		else
 		{
@@ -107,7 +122,7 @@ require_once('config.php');
 				echo "<table border=1><tr>";
 				echo "<td><b>Nazwa</b></td>";
 				echo "<td><b>Opis</b></td>";
-				echo "<td><b>Zarezerowany</b></td></tr>";
+				echo "<td><b>Zarezerwowany</b></td></tr>";
 				while ($row = mysql_fetch_row($lista))
 				{
 					
@@ -184,7 +199,7 @@ require_once('config.php');
 			}
 			
 			
-			$data = "SELECT Nazwa FROM domek WHERE Rezerwacja = 0 ORDER BY Nazwa ASC";
+			$data = "SELECT ID, Nazwa FROM domek WHERE Rezerwacja = 0 ORDER BY Nazwa ASC";
 
 			$do_rezezwacji= mysql_query($data);
 			
@@ -204,9 +219,14 @@ require_once('config.php');
 			echo"<option selected disabled>Wybierz domek</option>";
 			while ($row = mysql_fetch_row($do_rezezwacji))
 			{
-				echo "<option value='". $row[0] ."'>". $row[0] ."</option>";
+				echo "<option value='". $row[1] ."'>". $row[1] ."</option>";
 			}
 			echo"</SELECT><br/><br/>";
+			@mysql_data_seek($do_rezezwacji, 0); // powrót na początek listy
+			while ($row2 = mysql_fetch_row($do_rezezwacji))
+			{
+			echo "<input type=hidden name=id_domku value='". $row2[0] ."'>";  //pole ID
+			}
 			echo "Imię: <input type='text' name='imie' size='15' /> <br/>";
 			//echo"<br/><br/>";
 			
@@ -216,7 +236,7 @@ require_once('config.php');
 			echo "Numer tel: <input type='text' name='telefon' size='15' /> <br/>";
 			//echo"<br/><br/>";
 			
-			echo "Okres: <input type='text' name='okres' size='15' /> <br/><br/>";
+			echo "Ilość dni: <input type='text' name='okres' size='15' /> <br/><br/>";
 			//echo"<br/><br/>";
 			
 			echo"<input type='submit' name='rezerwuj' value='Rezewrwuj' /><br/>";
@@ -232,7 +252,7 @@ require_once('config.php');
 </div>
 
 <div id=footer>
-<center><a href='domki_panel_glowny.php'>Powrót na stronę główną</a></center>
+<center><a href='index.php'>Powrót na stronę główną</a></center>
 </div>
 
 </div>

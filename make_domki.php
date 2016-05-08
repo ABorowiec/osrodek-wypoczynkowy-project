@@ -22,21 +22,22 @@ $sql=
 `ID`  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 `Nazwa` varchar(30) COLLATE utf8_polish_ci NOT NULL,
 `Opis` text COLLATE utf8_polish_ci NOT NULL,
-`Wynajety'` INT UNSIGNED (1) COLLATE utf8_polish_ci NOT NULL
+`Rezerwacja` INT (1) UNSIGNED COLLATE utf8_polish_ci NOT NULL,
+ `Cena` INT UNSIGNED COLLATE utf8_polish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
 
 $results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 
-//$sql=
-//	"CREATE TABLE `dzialy` ( I USERS DOROBIĆ
-//  `ID`  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-//  `ADRES` varchar(30) NOT NULL,
-//  `DZIAL` varchar(30) NOT NULL,
-//  `LEV_DOSTEPU` tinyint(4) NOT NULL
-//) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
+$sql=
+	"CREATE TABLE `dzialy` (
+  `ID`  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `ADRES` varchar(30) NOT NULL utf8_polish_ci,
+  `DZIAL` varchar(30) NOT NULL utf8_polish_ci,
+  `LEV_DOSTEPU` tinyint(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
 
 
-//$results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+$results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 
 $sql=
 "CREATE TABLE `d_srodki` (
@@ -70,7 +71,7 @@ $sql=
 `Nazwisko` varchar(50) COLLATE utf8_polish_ci NOT NULL,
 `Adres` varchar(50) COLLATE utf8_polish_ci NOT NULL,
 `Miasto` varchar(50) COLLATE utf8_polish_ci NOT NULL,
-`Telefon` int(9) NOT NULL
+`Telefon` int(9) UNIQUE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
 
 
@@ -108,15 +109,15 @@ $sql=
 
 $results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 
-$sql=
-"CREATE TABLE `platnosc` (
-`ID`  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-`Karta` int(11) NOT NULL,
-`Gotowka` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
+// $sql=
+// "CREATE TABLE `platnosc` (
+// `ID`  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+// `Karta` int(11) NOT NULL,
+// `Gotowka` int(11) NOT NULL
+// ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
 
 
-$results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
+// $results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
 
 $sql=
 "CREATE TABLE `promocja` (
@@ -135,12 +136,11 @@ $sql=
 `ID` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 `ID_klient` INT UNSIGNED NOT NULL,
 `ID_domek` INT UNSIGNED NOT NULL,
-`ID_Platnosc` INT UNSIGNED NOT NULL,
-`Kwota` int(11) NOT NULL,
-`Ilosc_dni` int(11) NOT NULL,
+`Rodzaj_platnosci` INT UNSIGNED,
+`Kwota` int(11),
+`Ilosc_dni` int(11),
 FOREIGN KEY (ID_klient) REFERENCES klient (ID) ON DELETE NO ACTION ON UPDATE NO ACTION,
-FOREIGN KEY (ID_domek) REFERENCES domek (ID) ON DELETE NO ACTION ON UPDATE NO ACTION,
-FOREIGN KEY (ID_Platnosc) REFERENCES platnosc (ID) ON DELETE NO ACTION ON UPDATE NO ACTION
+FOREIGN KEY (ID_domek) REFERENCES domek (ID) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
 
 
@@ -160,13 +160,13 @@ $results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd
 
 $sql=
 "CREATE TABLE `users` (
-  `username` varchar(60) NOT NULL,
-  `password` tinytext,
+  `username` varchar(60) NOT NULL PRIMARY KEY,
+  `password` tinytext NOT NULL,
   `level` int(2) NOT NULL,
   `reset` tinytext,
-  `ip_login` varchar(30) NOT NULL,
-  `date_register` datetime NOT NULL,
-  `date_login` datetime NOT NULL
+  `ip_login` varchar(30),
+  `date_register` datetime,
+  `date_login` datetime
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
   
 $results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error()); 
@@ -175,11 +175,12 @@ $results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd
 $sql=
 "CREATE TABLE `zamowienia` (
 `ID`  INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-`Domek` varchar(30) COLLATE utf8_polish_ci NOT NULL,
+`ID_Domek` varchar(30) COLLATE utf8_polish_ci NOT NULL,
 `Imie` varchar(30) COLLATE utf8_polish_ci NOT NULL,
 `Nazwisko` varchar(30) COLLATE utf8_polish_ci NOT NULL,
 `Telefon` varchar(20) COLLATE utf8_polish_ci NOT NULL,
-`Uwagi` varchar(45) COLLATE utf8_polish_ci NOT NULL
+`Uwagi` varchar(45) COLLATE utf8_polish_ci NOT NULL,
+FOREIGN KEY (ID_Domek) REFERENCES domek (ID) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci";
 
 $results=mysql_query($sql) or die ('Wykonanie zapytania nie powodło sie. Błąd:' .mysql_error());
