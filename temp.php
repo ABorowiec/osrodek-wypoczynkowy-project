@@ -11,14 +11,14 @@ require_once('config.php');
 </head>
 <body>
 <div id=site>
-<div id=mainsite style ="width: 850px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #ffffff;">
+<div id=mainsite>
 
 <?php
 
 if(isset($_SESSION['zalogowany']))
 {
-$level = $_SESSION['level'];
-$user = $_SESSION['username'];
+	$level = $_SESSION['level'];
+	$user = $_SESSION['username'];
 
 	//$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
 	//mysql_select_db($db_name);
@@ -30,28 +30,28 @@ $user = $_SESSION['username'];
 	}
 	else
 	{
-	echo "<b>Nieodpowiednie uprawnienia. Zostaniesz przekierowany w ciągu 5 sekund...</b>";
-	header('Refresh: 5; url=domki_panel_glowny.php');
+		echo "<b>Nieodpowiednie uprawnienia. Zostaniesz przekierowany w ciągu 5 sekund...</b>";
+		header('Refresh: 5; url=domki_panel_glowny.php');
 	}
 
 }
 else
 {
-echo "<div id=login style='margin-top: 100px;'><br/>";
-echo "<h2 style='text-align: center; margin-top: 10px;'>Nie zalogowany. Zaloguj się!</h2>";
-echo "</div>";
-header('Location: index.php');
+	echo "<div id=login style='margin-top: 100px;'><br/>";
+	echo "<h2 style='text-align: center; margin-top: 10px;'>Nie zalogowany. Zaloguj się!</h2>";
+	echo "</div>";
+	header('Location: index.php');
 }
 
 ?>
 
-<!--
-<div style='bottom: 75px; left: 350px; position: absolute; text-align: center;'>
-<a href='index.html'>Powrót na stronę główną</a>
-</div>
--->
 
 </div>
+
+<div id=footer>
+<center><a href='domki_panel_glowny.php'>Powrót na stronę główną</a></center>
+</div>
+
 </div>
 </body>
 </html>
