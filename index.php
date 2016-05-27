@@ -1,106 +1,78 @@
-﻿<html>
+﻿<?php
+session_start();
+require_once('config.php');
+?>
+
+<html>
 <head>
 <META NAME="robots" CONTENT="noindex, nofollow">
 <link rel="shortcut icon" href="dane\favicon.ico">
 <link rel="Stylesheet" type="text/css" href="dane\style.css" />
 </head>
 <body>
+<div id=site>
+<div id=mainsite>
 
 <?php
 
-session_start();
-
 if(isset($_SESSION['zalogowany']))
 {
-header('Location: domki_panel_glowny.php');
-}
+	$level = $_SESSION['level'];
+	$user = $_SESSION['username'];
+	
+	//$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
+	//mysql_select_db($db_name);
+	//$level_z_bazy = mysql_query("SELECT level FROM users WHERE username = '$user'");
 
-if (isset($_POST['submit']))
-{
-if ($_POST['submit'] == 'Zaloguj')
-{
-$username = ($_POST['username']);
-$password = ($_POST['password']);
-
-//$password = hash('sha256', $password, false);
-
-require_once('config.php');
-
-$connection=mysql_connect ($db_host, $db_user, $db_pass) or die ("Próba połączenie z bazą danych nie powiodła się. Spróbuj ponownie");
-mysql_select_db($db_name);
-
-	if(mysql_num_rows(mysql_query("SELECT username, password FROM users WHERE username = '$username' && password = '$password' ")) > 0)
-    {
-	
-	$sql = "SELECT level FROM users WHERE username = '$username' && password = '$password' ";
-	
-	$lev = mysql_query($sql);
-	//echo $username;
-	//echo $password;
-	
-	$row = mysql_fetch_row($lev);
-	$level = $row[0];
-	$ip = $_SERVER['REMOTE_ADDR'];
-	$obecna_data = date("Y-m-d H:i:s");
-	
-	$update =	"UPDATE users SET ip_login='$ip', date_login='$obecna_data'
-				WHERE username = '$username'";
-	$updating = mysql_query($update);
-	
-		if ( $updating)
-		{
-			$_SESSION['zalogowany'] = true;
-			$_SESSION['username'] = $username;
-			$_SESSION['level'] = $level;
-			header('Location: domki_panel_glowny.php');
-		}
-	
-	
-	
-	
-		
-			  
-	
-	
-	}
-	else
+	if ($level == 6 || $level == 5 || $level == 4 || $level == 3 || $level == 2 || $level == 1 )
 	{
-	//echo mysql_error();
-	echo "Nieprawidłowe dane";
+		header('Location: domki_panel_glowny.php'); // Redirect
 	}
-}	
-//else
-//{
-//	header('Location: index.php');
-//}
-}
+	echo "<div id='login'>";
+	
+	echo "<table style='text-align: center; 
+							margin-left: auto; 
+							margin-right: auto;'><tr><td>";
+	
+	echo "<a href='zaloguj.php'>Wejdź jako pracownik</a>";
+	
+	echo "</td><td>";
+	
+	echo "<a href='rezerwuj.php'>Wejdź jako klient</a>";
+	
+	echo "</td></tr></table>";
+	
+	echo "</div>";
 
+}
+else
+{
+	echo "<div id='login'>";
+	
+	echo "<table style='text-align: center; 
+							margin-left: auto; 
+							margin-right: auto;'><tr><td>";
+	
+	echo "<a href='zaloguj.php'>Wejdź jako pracownik</a>";
+	
+	echo "</td><td>";
+	
+	echo "<a href='rezerwuj.php'>Wejdź jako klient</a>";
+	
+	echo "</td></tr></table>";
+	
+	echo "</div>";
+}
 
 ?>
 
-<div id=site>
-<div id=mainsite style ="width: 850px; height: 1000px; top: 100px; left: 100px; position: absolute; border: 1px; border-style: solid; border-color: #ffffff;">
-<h2 style='text-align: center; margin-top: 10px;'>Zaloguj się</h2>
-
-
-<div id=login><form method='POST' action=''> <br/>
-<table><tr>
-<td><b>nazwa uzytkownika:</b> </td><td><input type='text' name='username'> <br/> </td>
-</tr><tr>
-<td><b>hasło:</b> </td><td><input type='password' name='password'> <br/> </td>
-</tr></table>
-
-<input type='submit' value='Zaloguj' name='submit'> <br/><br/>
-
-<a href = 'sc_remind_password.php' >Przypomnij hasło</a>
-
-</form>
 
 </div>
 
-
-
+<div id=footer>
+<!-- <center><a href='domki_panel_glowny.php'>Powrót na stronę główną</a></center> -->
 </div>
+
 </div>
 </body>
 </html>
